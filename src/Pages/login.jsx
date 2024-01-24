@@ -12,7 +12,7 @@ function Iniciosecion() {
     // Después del inicio de sesión exitoso, puedes navegar a otra ruta
     const userIdObtenido = '22'; // Reemplaza con el id real obtenido
     setUserId(userIdObtenido);
-    navigate('/home', { replace: true });
+    navigate('/Home', { replace: true });
   };
   const [showPassword, setShowPassword] = useState(false);
 

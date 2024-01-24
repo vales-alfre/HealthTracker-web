@@ -1,7 +1,10 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faUser, faHandsHelping, faUserTie } from "@fortawesome/free-solid-svg-icons";
+import { faUser, 
+  faHandsHelping, 
+  faUserTie,
+  faHome  } from "@fortawesome/free-solid-svg-icons";
 
 function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
@@ -49,7 +52,7 @@ function Navbar() {
 
         <div className="flex items-center">
           <img src="/public/imagen/logo2.png" alt="Logo" className="h-8 mr-2" />
-          <div className="font-bold text-xl text-Black-White-800">
+          <div className="font-bold text-xl text-black">
             HealthTracker
           </div>
         </div>
@@ -66,18 +69,12 @@ function Navbar() {
             {menuAbierto && (
               <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
                 <a
-                  href="#"
+                  href="/Perfil"
                   className="flex items-center px-4 py-2 text-black hover:bg-pomegranate-200 hover:rounded-lg"
                 >
                   <i className="fas fa-user mr-2  text-java-600"></i> Mi Perfil
                 </a>
-                <a
-                  href="#"
-                  className="flex items-center px-4 py-2 text-black hover:bg-pomegranate-200 hover:rounded-lg"
-                >
-                  <i className="fas fa-cog mr-2  text-java-600"></i>{" "}
-                  Configuración
-                </a>
+               
                 <a
                   href="#"
                   onClick={cerrarSesion}
@@ -109,12 +106,18 @@ function Navbar() {
 
         <ul>
           <li>
+            <a  href="/Home"
+              className="block p-2 flex items-center font-bold text-black hover:bg-pomegranate-200 hover:rounded-lg">
+              <FontAwesomeIcon icon={faHome } className="mr-4   text-java-600" /> Inicio
+            </a>
+          </li>
+          <li>
             <a
               href="#"
               onClick={toggleSubMenuPacientes}
               className="block p-2 flex items-center font-bold text-black hover:bg-pomegranate-200 hover:rounded-lg"
             >
-              <FontAwesomeIcon icon={faUser} className="mr-4  text-curious-blue-600" /> Pacientes
+              <FontAwesomeIcon icon={faUser} className="mr-4   text-java-600" /> Pacientes
             </a>
             {subMenuPacientesAbierto && (
               <ul className="ml-4">
@@ -143,7 +146,7 @@ function Navbar() {
               onClick={toggleSubMenuCuidadores}
               className="block p-2 flex items-center font-bold text-black hover:bg-pomegranate-200 hover:rounded-lg"
             >
-              <FontAwesomeIcon icon={faHandsHelping} className="mr-2  text-curious-blue-600" /> Cuidadores
+              <FontAwesomeIcon icon={faHandsHelping} className="mr-2  text-java-600" /> Cuidadores
             </a>
             {subMenuCuidadoresAbierto && (
               <ul className="ml-4">
@@ -172,7 +175,7 @@ function Navbar() {
               onClick={toggleSubMenuAdmin}
               className="block p-2 flex items-center font-bold text-black hover:bg-pomegranate-200 hover:rounded-lg"
             >
-              <FontAwesomeIcon icon={faUserTie} className="mr-4 text-curious-blue-600" /> Admin
+              <FontAwesomeIcon icon={faUserTie} className="mr-4 text-java-600" /> Admin
             </a>
             {subMenuAdminAbierto && (
               <ul className="ml-4">
