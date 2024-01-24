@@ -25,7 +25,7 @@ function CardButton({ title, animationData, options }) {
     <div className="relative bg-java-400 rounded-xl shadow-lg overflow-hidden group">
       <button style={buttonStyle} className=" bg-java-600 hover:bg-curious-blue-800 focus:outline-none">
         <Lottie options={{ ...options, animationData }} style={animationStyle} />
-        <p className="text-lg font-bold text-java-950 group-hover:text-Black-White-50">{title}</p>
+        <p className="text-2xl font-bold text-java-950 group-hover:text-Black-White-50">{title}</p>
       </button>
     </div>
   );

@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../Routers/UserProvider';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEnvelope, faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons';
 function Iniciosecion() {
   const navigate = useNavigate();
   const { setUserId } = useUserContext();
@@ -11,6 +13,11 @@ function Iniciosecion() {
     const userIdObtenido = '22'; // Reemplaza con el id real obtenido
     setUserId(userIdObtenido);
     navigate('/home', { replace: true });
+  };
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleTogglePassword = () => {
+    setShowPassword(!showPassword);
 }
     return (
       <div className=" bg-[url('/public/imagen/fondo.jpg')]  bg-cover flex items-center justify-center h-screen bg-gray-200">
@@ -24,33 +31,36 @@ function Iniciosecion() {
           <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
             <input type="hidden" name="remember" value="true" />
             <div className="rounded-md shadow-sm">
-              <div>
-                <input
-                  aria-label="Correo electrónico"
-                  name="email"
-                  type="email"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-curious-blue-700 focus:border-curious-blue-700 focus:z-10 sm:text-sm"
-                  placeholder="Correo electrónico"
-                />
-              </div>
-              <div className="-mt-px">
-                <input
-                  aria-label="Contraseña"
-                  name="password"
-                  type="password"
-                  required
-                  className="appearance-none rounded-none relative block w-full px-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-curious-blue-700 focus:border-curious-blue-700 focus:z-10 sm:text-sm"
-                  placeholder="Contraseña"
-                />
-              </div>
+            <div className="relative">
+            <FontAwesomeIcon icon={faEnvelope} className="absolute inset-y-3 left-0 pl-3 flex items-center text-gray-500" />
+            <input
+              aria-label="Correo electrónico"
+              name="email"
+              type="email"
+              required
+              className="icon-input appearance-none rounded-none block w-full pl-10 pr-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-curious-blue-700 focus:border-curious-blue-700 focus:z-10 sm:text-sm"
+              placeholder="Correo electrónico"
+            />
+            </div>
+            <div className="relative">
+            <FontAwesomeIcon icon={faLock} className="absolute inset-y-3 left-0 pl-3 flex items-center text-gray-500" />
+            <FontAwesomeIcon icon={showPassword ? faEyeSlash : faEye} className="absolute inset-y-3 right-0 pr-3 flex items-center text-gray-500 cursor-pointer" onClick={handleTogglePassword} />
+            <input
+              aria-label="Contraseña"
+              name="password"
+              type={showPassword ? 'text' : 'password'}
+              required
+              className="icon-input appearance-none rounded-none block w-full pl-10 pr-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-curious-blue-700 focus:border-curious-blue-700 focus:z-10 sm:text-sm"
+              placeholder="Contraseña"
+            />
+          </div>
             </div>
   
             <div className="flex items-center justify-between">
               <div className="flex items-center">
               </div>
               <div className="text-sm">
-                <a href="#" className="font-medium text-java-800 hover:text-java-500">
+                <a href="/Recuperar-contraseña" className="font-medium text-java-800 hover:text-java-500">
                   ¿Olvidaste tu contraseña?
                 </a>
               </div>

@@ -39,7 +39,7 @@ function Navbar() {
 
   return (
     <nav
-      className="bg-java-400 text-white p-2 text-lg shadow-md"
+      className="bg-pomegranate-400 text-white p-2 text-lg shadow-md"
       style={{ height: navbarHeight }}
     >
       <div className="container mx-auto flex justify-between items-center z-50">
