@@ -5,7 +5,6 @@ import { faUser,
   faHandsHelping, 
   faUserTie,
   faHome  } from "@fortawesome/free-solid-svg-icons";
-
 function Navbar() {
   const [menuAbierto, setMenuAbierto] = useState(false);
   const [menuLateralAbierto, setMenuLateralAbierto] = useState(false);
@@ -39,6 +38,10 @@ function Navbar() {
     // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
     navigate("/");
   };
+  const VolverHome = () => {
+    // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
+    navigate("/Home");
+  };
 
   return (
     <nav
@@ -46,10 +49,13 @@ function Navbar() {
       style={{ height: navbarHeight }}
     >
       <div className="container mx-auto flex justify-between items-center z-50">
-        <button onClick={toggleMenuLateral} className="p-2 text-xl">
-          <i className="fas fa-bars text-2xl  text-Black-White-950 hover:text-big-stone-50"></i>
-        </button>
-
+  <a href="/Home" className="p-2 text-xl flex items-center font-bold text-Black-White-950 hover:text-big-stone-50 ">
+    <FontAwesomeIcon icon={faHome} className="text-2xl mr-2 "/>
+     <div className="mt-1">
+     Inicio
+     </div>
+   
+  </a>
         <div className="flex items-center">
           <img src="/public/imagen/logo2.png" alt="Logo" className="h-8 mr-2" />
           <div className="font-bold text-xl text-black">
@@ -88,7 +94,7 @@ function Navbar() {
           </div>
         </div>
       </div>
-
+{/*
       <div
         className={`fixed top-[${navbarHeight}] left-0 w-66 h-full bg-Black-White-50 shadow-md transform rounded-lg ${
           menuLateralAbierto ? "translate-x-0" : "-translate-x-full"
@@ -103,7 +109,7 @@ function Navbar() {
             className="h-8 w-65 ml-1"
           />
         </button>
-
+        
         <ul>
           <li>
             <a  href="/Home"
@@ -199,7 +205,8 @@ function Navbar() {
             )}
           </li>
         </ul>
-      </div>
+        
+      </div>    */}
     </nav>
   );
 }

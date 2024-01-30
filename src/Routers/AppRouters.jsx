@@ -4,6 +4,8 @@ import Iniciosecion from '../Pages/login'
 import Recover from '../Pages/Recover'
 import Home from '../Pages/Home'
 import Perfil from '../Pages/profile'
+import PatientRegistration from '../Paciente/Register'
+import ListaPacientes from '../Paciente/list'
 
 const appRouters = () => {
   return (
@@ -12,6 +14,8 @@ const appRouters = () => {
         <Route path='/Home' element={<Home/>}/>
         <Route path='/Recuperar-contraseña' element={<Recover/>}/> 
         <Route path='/Perfil' element={<Perfil/>}/> 
+        <Route path='/Registrar_paciente' element={<PatientRegistration/>}/>
+        <Route path='/Lista_paciente' element={<ListaPacientes/>}/>
     </Routes>
   )
 }
