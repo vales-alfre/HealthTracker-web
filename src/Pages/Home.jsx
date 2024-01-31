@@ -29,17 +29,10 @@ function Home() {
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-curious-blue-900 mb-6">Bienvenido {loadedUserId}</h1>
         <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-20">
-<<<<<<< Updated upstream
-          <CardButton animationData={patient} options={defaultOptions} title="Pacientes" />
-          <CardButton animationData={carer} options={defaultOptions} title="Cuidadores" />
-          <CardButton animationData={Admin} options={defaultOptions} title="Administración" />
-        </div>
-=======
           <CardButton animationData={patient} options={defaultOptions} title="Pacientes "  navigateTo="/Lista_paciente" />
           <CardButton animationData={carer} options={defaultOptions} title="Cuidadores" navigateTo="/Lista_cuidador"/>
           <CardButton animationData={Admin} options={defaultOptions} title="Administración" navigateTo="/Lista_Admin" />
         </div>  
->>>>>>> Stashed changes
       </div>
     </div>
   );
