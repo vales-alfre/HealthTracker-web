@@ -1,4 +1,5 @@
 Interfaces
+
 inicio de secion
 ![Inicio](https://github.com/vales-alfre/HealthTracker-web/assets/97996152/e9e1a66e-592e-4553-b2ce-85366176b2cd)
 
@@ -18,6 +19,7 @@ Cuidador
 ![lista de cuidador](https://github.com/vales-alfre/HealthTracker-web/assets/97996152/d5299fb7-953e-42ab-8398-6ff36d30b48d)
 
 Registro
+
 ![registro](https://github.com/vales-alfre/HealthTracker-web/assets/97996152/996c78c9-bc2e-4102-a870-b1118bc1cd09)
 
 
