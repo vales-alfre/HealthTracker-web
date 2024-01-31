@@ -3,8 +3,8 @@ import Lottie from 'react-lottie';
 import { useNavigate } from 'react-router-dom';
 function CardButton({ title, animationData, options, navigateTo }) {
   const buttonStyle = {
-    width: '300px', // Ancho personalizado
-    height: '250px', // Alto personalizado
+    width: '350px', // Ancho personalizado
+    height: '300px', // Alto personalizado
     display: 'flex',
     flexDirection: 'column',
     alignItems: 'center',
