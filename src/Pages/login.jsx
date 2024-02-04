@@ -5,15 +5,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons';
 function Iniciosecion() {
   const navigate = useNavigate();
-  const { setUserId } = useUserContext();
+  const { setUser } = useUserContext();
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Aquí iría la lógica de inicio de sesión
-    // Después del inicio de sesión exitoso, puedes navegar a otra ruta
-    const userIdObtenido = '22'; // Reemplaza con el id real obtenido
-    setUserId(userIdObtenido);
+
+    // Verifica el correo electrónico y la contraseña del usuario aquí
+    const EMAIL_ADMIN = 'admin@example.com';
+    const PASSWORD_ADMIN = 'admin123';
+    const EMAIL_CARETAKER = 'caretaker@example.com';
+    const PASSWORD_CARETAKER = 'caretaker123';
+
+    const email = e.target.email.value;
+  const password = e.target.password.value;
+
+  if (email === EMAIL_ADMIN && password === PASSWORD_ADMIN) {
+    setUser({ userId: '22', role: 'admin' }); // Asigna el rol de administrador
     navigate('/Home', { replace: true });
-  };
+  } else if (email === EMAIL_CARETAKER && password === PASSWORD_CARETAKER) {
+    setUser({ userId: '33', role: 'caretaker' }); // Asigna el rol de cuidador
+    navigate('/Home', { replace: true });
+  } else {
+    alert('Correo electrónico o contraseña incorrectos');
+  }
+};
+
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {

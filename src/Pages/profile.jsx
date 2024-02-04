@@ -1,7 +1,14 @@
-import React from 'react';
+import React, { useState , useEffect} from 'react';
 import Navbar from '../Navegation/Navbar';
+import { useUserContext } from '../Routers/UserProvider'; 
 
 function Perfil () {
+  const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
+  const [loadedUser, setLoadedUser] = useState(user);
+  useEffect(() => {
+    setLoadedUser(user);
+  }, [user]);
+
   return (
     <div>
       <Navbar/>
@@ -15,7 +22,7 @@ function Perfil () {
           />
         </div>
         <div className="mt-4">
-          <h2 className="text-xl font-bold text-gray-800">Nombre de Usuario</h2>
+          <h2 className="text-xl font-bold text-gray-800">Nombre de Usuario {loadedUser.userId}</h2>
           <p className="text-gray-500">Correo electrónico@example.com</p>
         </div>
         <div className="mt-6">

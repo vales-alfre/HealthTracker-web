@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Navbar from '../Navegation/Navbar';
-import { useNavigate } from 'react-router-dom';
+import { useUserContext } from '../Routers/UserProvider'; 
 import CurerRegistration from './Register';
 function ListaCuidador() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
-    const [editCurerData, setEditCurerData] = useState(null);
+    const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
+    const [loadedUser, setLoadedUser] = useState(user);
+  
     const [Cuidador, setCuidador] = useState([
         {
             id: 1,
@@ -44,6 +46,10 @@ function ListaCuidador() {
         }   
         // Si el usuario no confirma, no hagas nada
     };
+    useEffect(() => {
+        setLoadedUser(user);
+      }, [user]);
+    
 
     return (
         <>
@@ -51,7 +57,7 @@ function ListaCuidador() {
             {/* Encabezado y botón de registro */}
             <div className=" mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-xl font-bold text-gray-700">Cuidador Registrados</h1>
+                    <h1 className="text-xl font-bold text-gray-700">Cuidador Registrados {loadedUser.userId}</h1>
                     <button onClick={openModal} className="bg-java-800 hover:bg-java-400 hover:text-Black-White-950 text-white font-bold py-2 px-4 rounded">
                         Registrar Cuidador
                     </button>

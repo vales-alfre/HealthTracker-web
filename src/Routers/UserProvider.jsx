@@ -1,13 +1,12 @@
-// Contexto.js
 import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
 
 export const UserProvider = ({ children }) => {
-  const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState({ userId: null, role: null }); // Incluye el rol del usuario
 
   return (
-    <UserContext.Provider value={{ userId, setUserId }}>
+    <UserContext.Provider value={{ user, setUser }}>
       {children}
     </UserContext.Provider>
   );

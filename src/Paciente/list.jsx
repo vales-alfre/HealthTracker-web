@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useState,useEffect } from 'react';
 import Navbar from '../Navegation/Navbar';
-import { useNavigate } from 'react-router-dom';
 import PatientRegistration from './Register';
-
+import { useUserContext } from '../Routers/UserProvider'; 
 function ListaPacientes() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const [editPscienteData, setEditPaceinteData] = useState(null);
 
+    const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
+    const [loadedUser, setLoadedUser] = useState(user);
+  
     const [pacientes, setPacientes] = useState([
         {
             id: 1,
@@ -22,6 +24,11 @@ function ListaPacientes() {
         },
         // Más pacientes aquí...
     ]);
+
+    useEffect(() => {
+        setLoadedUser(user);
+      }, [user]);
+    
 
     const handleDelete = (id) => {
         // Muestra un diálogo de confirmación
@@ -52,7 +59,7 @@ function ListaPacientes() {
             {/* Encabezado y botón de registro */}
             <div className=" mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-xl font-bold text-gray-700">Pacientes Registrados</h1>
+                    <h1 className="text-xl font-bold text-gray-700">Pacientes Registrados {loadedUser.userId}</h1>
                     <button onClick={openModal} className="bg-java-800 hover:bg-java-400 hover:text-Black-White-950 text-white font-bold py-2 px-4 rounded">
                         Registrar Paciente
                     </button>
