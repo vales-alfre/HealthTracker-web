@@ -5,20 +5,31 @@ import AdminRegistration from './Register';
 function ListaAdmin() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-
+    const [editAdminData, setEditAdminData] = useState(null);
     const [Admin, setAdmin] = useState([
         {
             id: 1,
-            nombre: 'Juan Pérez',
+            nombre: 'Juan', 
+            apellidos:'Pérez',
             correo: 'juanperez@example.com',
             contraseña: '********',
             telefono: '123456789',
-            ritmo: '77',
-            emergencia: '000000000',
+            fechaNacimiento: '12/12/1999',
+            genero:'Masculino',
         },
         // Más pacientes aquí...
     ]);
+
+
+    const openEditModal = (adminData) => {
+        setEditAdminData(adminData); // Establece los datos del admin a editar
+        setIsModalOpen(true); // Abre el modal
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setEditAdminData(null); // Limpia los datos del admin a editar al cerrar el modal
+    };
 
     const handleDelete = (id) => {
         // Muestra un diálogo de confirmación
@@ -31,7 +42,7 @@ function ListaAdmin() {
         // Si el usuario no confirma, no hagas nada
     };
 
-    const navigate = useNavigate();
+
 
     return (
         <>
@@ -46,14 +57,14 @@ function ListaAdmin() {
                 </div>
 
                 {isModalOpen && (
-                     <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50">
-                     <div className="relative top-10 mx-auto p-5 border shadow-lg rounded-md bg-white" style={{ maxWidth: '50%' }}>
-                         <button onClick={closeModal} className="absolute top-0 right-0 mt-2 mr-2">
-                             <i className="fas fa-times"></i>
-                         </button>
-                         <AdminRegistration closeModal={closeModal} />
-                     </div>
-                 </div>
+                    <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                        <div className="relative top-10 mx-auto p-5 border shadow-lg rounded-md bg-white" style={{ maxWidth: '50%' }}>
+                            <button onClick={closeModal} className="absolute top-0 right-0 mt-2 mr-2">
+                                <i className="fas fa-times"></i>
+                            </button>
+                            <AdminRegistration closeModal={closeModal} />
+                        </div>
+                    </div>
                 )}
 
                 {/* Tabla de pacientes */}
@@ -75,26 +86,41 @@ function ListaAdmin() {
                             {Admin.map((Admins) => (
                                 <tr key={Admins.id}>
                                     <td className="border px-4 py-2"></td>
-                                    <td className="border px-4 py-2">{Admins.nombre}</td>
+                                    <td className="border px-4 py-2">{Admins.nombre +' '+Admins.Apellido }</td>
                                     <td className="border px-4 py-2">{Admins.correo}</td>
                                     <td className="border px-4 py-2">{Admins.contraseña}</td>
-                                    <td className="border px-4 py-2">12-12-1999</td>
-                                    <td className="border px-4 py-2">Masculino</td>
+                                    <td className="border px-4 py-2">{Admins.fechaNacimiento}</td>
+                                    <td className="border px-4 py-2">{Admins.genero}</td>
                                     <td className="border px-4 py-2">{Admins.telefono}</td>
                                     <td className="border px-4 py-2 flex justify-end items-center space-x-2">
-                                        <button className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded">
+                                        <button
+                                         onClick={() => openEditModal(Admins)}
+                                            className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded">
                                             Modificar
                                         </button>
-                                        <button 
-                                         onClick={() => handleDelete(Admins.id)}
-                                        className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
+                                        <button
+                                            onClick={() => handleDelete(Admins.id)}
+                                            className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
                                             Eliminar
                                         </button>
                                     </td>
                                 </tr>
                             ))}
+
                         </tbody>
                     </table>
+
+                    {isModalOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                            <div className="relative top-10 mx-auto p-5 border shadow-lg rounded-md bg-white" style={{ maxWidth: '50%' }}>
+                                <button onClick={closeModal} className="absolute top-0 right-0 mt-2 mr-2">
+                                    <i className="fas fa-times"></i>
+                                </button>
+                                <AdminRegistration closeModal={closeModal} adminData={editAdminData} />
+                            </div>
+                        </div>
+                    )}
+
                 </div>
             </div>
         </>

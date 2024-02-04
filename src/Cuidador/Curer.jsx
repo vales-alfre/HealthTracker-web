@@ -5,20 +5,34 @@ import CurerRegistration from './Register';
 function ListaCuidador() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
-    const closeModal = () => setIsModalOpen(false);
-
+    const [editCurerData, setEditCurerData] = useState(null);
     const [Cuidador, setCuidador] = useState([
         {
             id: 1,
-            nombre: 'Juan Pérez',
+            nombre: 'Juan ',
+            apellidos:'Pérez',
             correo: 'juanperez@example.com',
             contraseña: '********',
             telefono: '123456789',
             ritmo: '77',
-            emergencia: '000000000',
+            genero:'Masculino',
+            fechaNacimiento:'12-12-1999',
+            relacion:'Hijo',
+            Paciente:' Juan Pérez'
+
         },
         // Más pacientes aquí...
     ]);
+
+    const openEditModal = (CurerData) => {
+        setEditCurerData(CurerData); // Establece los datos del admin a editar
+        setIsModalOpen(true); // Abre el modal
+    };
+
+    const closeModal = () => {
+        setIsModalOpen(false);
+        setEditCurerData(null); // Limpia los datos del admin a editar al cerrar el modal
+    };
 
     const handleDelete = (id) => {
         // Muestra un diálogo de confirmación
@@ -27,7 +41,7 @@ function ListaCuidador() {
             // Si el usuario confirma, procede con la eliminación
             const updateCuidador = Cuidador.filter(Cuidar => Cuidar.id !== id);
             setCuidador(updateCuidador);
-        }
+        }   
         // Si el usuario no confirma, no hagas nada
     };
 
@@ -78,13 +92,15 @@ function ListaCuidador() {
                                     <td className="border px-4 py-2">{Cuidar.nombre}</td>
                                     <td className="border px-4 py-2">{Cuidar.correo}</td>
                                     <td className="border px-4 py-2">{Cuidar.contraseña}</td>
-                                    <td className="border px-4 py-2">12-12-1965</td>
-                                    <td className="border px-4 py-2">Masculino</td>
+                                    <td className="border px-4 py-2">{Cuidar.fechaNacimiento}</td>
+                                    <td className="border px-4 py-2">{Cuidar.genero}</td>
                                     <td className="border px-4 py-2">{Cuidar.telefono}</td>
-                                    <td className="border px-4 py-2">Hijo</td>
-                                    <td className="border px-4 py-2">{Cuidar.nombre}</td>
+                                    <td className="border px-4 py-2">{Cuidar.relacion}</td>
+                                    <td className="border px-4 py-2">{Cuidar.Paciente}</td>
                                     <td className="border px-4 py-2 flex justify-end items-center space-x-2">
-                                        <button className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded">
+                                        <button 
+                                          onClick={() => openEditModal(Cuidar)}
+                                        className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded">
                                             Modificar
                                         </button>
                                         <button 
@@ -97,6 +113,16 @@ function ListaCuidador() {
                             ))}
                         </tbody>
                     </table>
+                    {isModalOpen && (
+                        <div className="fixed inset-0 bg-black bg-opacity-50 overflow-y-auto h-full w-full z-50">
+                            <div className="relative top-10 mx-auto p-5 border shadow-lg rounded-md bg-white" style={{ maxWidth: '50%' }}>
+                                <button onClick={closeModal} className="absolute top-0 right-0 mt-2 mr-2">
+                                    <i className="fas fa-times"></i>
+                                </button>
+                                < CurerRegistration closeModal={closeModal} adminData={editCurerData} />
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </>

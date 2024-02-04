@@ -30,13 +30,7 @@ function Perfil () {
             {/* Agrega más información personal según sea necesario */}
           </ul>
         </div>
-        <div className="mt-6">
-          <button
-            className="w-full py-2 px-4 bg-pomegranate-500 text-white rounded-md hover:bg-pomegranate-400 focus:outline-none focus:bg-pomegranate-950"
-          >
-            Editar Perfil
-          </button>
-        </div>
+        
       </div>
     </div>
     </div>
