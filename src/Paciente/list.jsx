@@ -21,7 +21,17 @@ function ListaPacientes() {
         // Más pacientes aquí...
     ]);
 
-    const navigate = useNavigate();
+    const handleDelete = (id) => {
+        // Muestra un diálogo de confirmación
+        const isConfirmed = window.confirm('¿Estás seguro de que deseas eliminar este administrador?');
+        if (isConfirmed) {
+            // Si el usuario confirma, procede con la eliminación
+            const updatedPacientes = pacientes.filter(paciente => paciente.id !== id);
+            setPacientes(updatedPacientes);
+        }
+        // Si el usuario no confirma, no hagas nada
+    };
+
 
     return (
         <>
@@ -75,7 +85,9 @@ function ListaPacientes() {
                                         <button className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded mr-2">
                                             Modificar
                                         </button>
-                                        <button className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
+                                        <button
+                                         onClick={() => handleDelete(paciente.id)}
+                                        className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
                                             Eliminar
                                         </button>
                                     </td>

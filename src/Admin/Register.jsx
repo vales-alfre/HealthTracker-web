@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../Routers/UserProvider';
-function PatientRegistration({ closeModal, handleSubmit2 }) {
+function AdminRegistration({ closeModal, handleSubmit2 }) {
    
 
     const [formData, setFormData] = useState({
@@ -98,19 +98,7 @@ function PatientRegistration({ closeModal, handleSubmit2 }) {
                     {errors.telefono && <p className="text-red-500 text-xs italic">{errors.telefono}</p>}
                 </div>
 
-                {/* Ritmo Cardíaco */}
-                <div>
-                    <label htmlFor="ritmoCardiaco" className="block text-sm font-medium text-gray-700">Ritmo Cardíaco</label>
-                    <input type="number" name="ritmoCardiaco" value={formData.ritmoCardiaco} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-                    {errors.ritmoCardiaco && <p className="text-red-500 text-xs italic">{errors.ritmoCardiaco}</p>}
-                </div>
-
-                {/* Número de Emergencia */}
-                <div>
-                    <label htmlFor="numeroEmergencia" className="block text-sm font-medium text-gray-700">Número de Emergencia</label>
-                    <input type="tel" name="numeroEmergencia" value={formData.numeroEmergencia} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-                    {errors.numeroEmergencia && <p className="text-red-500 text-xs italic">{errors.numeroEmergencia}</p>}
-                </div>
+              
                 {/* Botón de envío */}
                 <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Registrar
@@ -120,4 +108,4 @@ function PatientRegistration({ closeModal, handleSubmit2 }) {
     );
 }
 
-export default PatientRegistration;
+export default AdminRegistration;
