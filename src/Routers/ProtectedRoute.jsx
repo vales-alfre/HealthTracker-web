@@ -1,14 +1,16 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useUserContext } from '../Routers/UserProvider';
 
 export function ProtectedRoute({ children, roles }) {
   const { user } = useUserContext();
+  const navigate = useNavigate();
 
-  if (!user.userId || !roles.includes(user.role)) {
-    // Redirigir al usuario si no está autenticado o no tiene el rol necesario
-    return <Navigate to="/" replace />;
-  }
+  useEffect(() => {
+    if (!user.userId || !roles.includes(user.role)) {
+      navigate("/", { replace: true });
+    }
+  }, [user, roles, navigate]); // Asegúrate de incluir dependencias adecuadas
 
-  return children;
+  return user.userId && roles.includes(user.role) ? children : null;
 }
