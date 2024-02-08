@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useUserContext } from '../Routers/UserProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons';
@@ -76,9 +77,9 @@ function Iniciosecion() {
               <div className="flex items-center">
               </div>
               <div className="text-sm">
-                <a href="/Recuperar-contraseña" className="font-medium text-java-800 hover:text-java-500">
+                <Link  href="/Recuperar-contraseña" className="font-medium text-java-800 hover:text-java-500">
                   ¿Olvidaste tu contraseña?
-                </a>
+                </Link >
               </div>
             </div>
   
