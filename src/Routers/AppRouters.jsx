@@ -9,7 +9,7 @@ import ListaPacientes from '../Paciente/list'
 import ListaAdmin from '../Admin/List_Adminis'
 import Curer from '../Cuidador/Curer'
 
-const AppRouters = () => {
+function AppRouters () {
   return (
     <Routes>
         <Route path='/' element={<Iniciosecion/>}/>
