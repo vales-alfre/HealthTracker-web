@@ -38,9 +38,9 @@ function Navbar() {
     // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
     navigate("/");
   };
-  const VolverHome = () => {
+  const perfil = () => {
     // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
-    navigate("/Home");
+    navigate("/Perfil");
   };
 
   return (
@@ -75,7 +75,8 @@ function Navbar() {
             {menuAbierto && (
               <div className="absolute right-0 mt-2 py-2 w-48 bg-white rounded-lg shadow-xl">
                 <a
-                  href="/Perfil"
+                  href="#"
+                  onClick={perfil}
                   className="flex items-center px-4 py-2 text-black hover:bg-pomegranate-200 hover:rounded-lg"
                 >
                   <i className="fas fa-user mr-2  text-java-600"></i> Mi Perfil
