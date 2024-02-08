@@ -93,7 +93,7 @@ function ListaAdmin() {
                             {Admin.map((Admins) => (
                                 <tr key={Admins.id}>
                                     <td className="border px-4 py-2"></td>
-                                    <td className="border px-4 py-2">{Admins.nombre +' '+Admins.Apellido }</td>
+                                    <td className="border px-4 py-2">{Admins.nombre +' '+Admins.apellidos }</td>
                                     <td className="border px-4 py-2">{Admins.correo}</td>
                                     <td className="border px-4 py-2">{Admins.contraseña}</td>
                                     <td className="border px-4 py-2">{Admins.fechaNacimiento}</td>
