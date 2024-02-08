@@ -2,7 +2,7 @@ import React, { createContext, useContext, useState } from 'react';
 
 const UserContext = createContext();
 
-export const UserProvider = ({ children }) => {
+export function UserProvider({ children }) {
   const [user, setUser] = useState({ userId: null, role: null }); // Incluye el rol del usuario
 
   return (
@@ -10,6 +10,6 @@ export const UserProvider = ({ children }) => {
       {children}
     </UserContext.Provider>
   );
-};
+}
 
 export const useUserContext = () => useContext(UserContext);
