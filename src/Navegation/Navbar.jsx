@@ -57,7 +57,7 @@ function Navbar() {
    
   </a>
         <div className="flex items-center">
-          <img src="/Imagen/logo2.png" alt="Logo" className="h-8 mr-2" />
+        <img src="/Imagen/logo2.png" alt="Logo" className="h-8 mr-2" />
           <div className="font-bold text-xl text-black">
             HealthTracker
           </div>
