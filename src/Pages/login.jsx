@@ -76,11 +76,6 @@ function Iniciosecion() {
             <div className="flex items-center justify-between">
               <div className="flex items-center">
               </div>
-              <div className="text-sm">
-                <Link  href="/Recuperar-contraseña" className="font-medium text-java-800 hover:text-java-500">
-                  ¿Olvidaste tu contraseña?
-                </Link >
-              </div>
             </div>
   
             <div>
