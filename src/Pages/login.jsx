@@ -36,7 +36,7 @@ function Iniciosecion() {
     setShowPassword(!showPassword);
 }
     return (
-      <div className=" bg-[url('/public/imagen/fondo.jpg')]  bg-cover flex items-center justify-center h-screen bg-gray-200">
+      <div className=" bg-cover flex items-center justify-center h-screen bg-gray-200">
         <div className="p-6 max-w-sm w-full bg-white shadow-md rounded-md">
           <div className='flex justify-center items-center '>
           <img src="/public/imagen/logo2.png" className='w-36 ju'/>
