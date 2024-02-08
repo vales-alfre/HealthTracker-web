@@ -1,15 +1,14 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
-import { useUserContext } from '../Routers/UserProvider'; // Asegúrate de que la ruta de importación es correcta
+import { useUserContext } from '../Routers/UserProvider';
 
 export function ProtectedRoute({ children, roles }) {
   const { user } = useUserContext();
 
-  if (!roles.includes(user.role)) {
-    // Si el usuario no tiene uno de los roles requeridos, redirigir
-    return <Navigate to="/" />;
+  if (!user.userId || !roles.includes(user.role)) {
+    // Redirigir al usuario si no está autenticado o no tiene el rol necesario
+    return <Navigate to="/" replace />;
   }
 
-  // Si el usuario tiene el rol correcto, permitir acceso
   return children;
 }
