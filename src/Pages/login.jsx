@@ -40,7 +40,7 @@ function Iniciosecion() {
       <div className=" bg-[url('https://saludconlupa.com/media/images/shutterstock_131191718.width-1920.jpg')]  bg-cover flex items-center justify-center h-screen bg-gray-200">
         <div className="p-6 max-w-sm w-full bg-white shadow-md rounded-md">
           <div className='flex justify-center items-center '>
-          <img src="/public/Imagen/logo2.png" className="w-36 ju" alt="Logo" />
+          <img src="/Imagen/logo2.png" className="w-36 ju" alt="Logo" />
           </div>
           <h2 className="text-center text-3xl leading-9 font-extrabold text-Black-White-900">
             Iniciar sesión
