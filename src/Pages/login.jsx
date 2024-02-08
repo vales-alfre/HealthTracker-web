@@ -36,7 +36,7 @@ function Iniciosecion() {
     setShowPassword(!showPassword);
 }
     return (
-      <div className=" bg-[url('https://1drv.ms/i/s!AlO8utTvzrbDhTtAUikVFZ4uojvX?e=9Rd07e')]  bg-cover flex items-center justify-center h-screen bg-gray-200">
+      <div className=" bg-[url('https://saludconlupa.com/media/images/shutterstock_131191718.width-1920.jpg')]  bg-cover flex items-center justify-center h-screen bg-gray-200">
         <div className="p-6 max-w-sm w-full bg-white shadow-md rounded-md">
           <div className='flex justify-center items-center '>
           <img src="https://1drv.ms/i/s!AlO8utTvzrbDhT6u_Y2jsZCqATE5?e=fSkxI2" className='w-36 ju'/>
