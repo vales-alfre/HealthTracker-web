@@ -79,7 +79,6 @@ function ListaAdmin() {
                     <table className="min-w-full bg-white " style={{ minWidth: "100%" }}>
                         <thead className="bg-curious-blue-700 text-white">
                             <tr>
-                                <th className="px-4 py-2">Foto</th>
                                 <th className="px-4 py-2">Nombre</th>
                                 <th className="px-4 py-2">Correo</th>
                                 <th className="px-4 py-2">Contraseña</th>
@@ -92,7 +91,6 @@ function ListaAdmin() {
                         <tbody className="text-gray-700">
                             {Admin.map((Admins) => (
                                 <tr key={Admins.id}>
-                                    <td className="border px-4 py-2"></td>
                                     <td className="border px-4 py-2">{Admins.nombre +' '+Admins.apellidos }</td>
                                     <td className="border px-4 py-2">{Admins.correo}</td>
                                     <td className="border px-4 py-2">{Admins.contraseña}</td>

@@ -79,7 +79,6 @@ function ListaCuidador() {
                     <table className="min-w-full bg-white " style={{ minWidth: "100%" }}>
                         <thead className="bg-curious-blue-700 text-white">
                             <tr>
-                                <th className="px-4 py-2">Foto</th>
                                 <th className="px-4 py-2">Nombre</th>
                                 <th className="px-4 py-2">Correo</th>
                                 <th className="px-4 py-2">Contraseña</th>
@@ -94,7 +93,6 @@ function ListaCuidador() {
                         <tbody className="text-gray-700">
                             {Cuidador.map((Cuidar) => (
                                 <tr key={Cuidar.id}>
-                                    <td className="border px-4 py-2"></td>
                                     <td className="border px-4 py-2">{Cuidar.nombre}</td>
                                     <td className="border px-4 py-2">{Cuidar.correo}</td>
                                     <td className="border px-4 py-2">{Cuidar.contraseña}</td>
