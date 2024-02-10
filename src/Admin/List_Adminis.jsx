@@ -12,14 +12,13 @@ function ListaAdmin() {
     const [Admin, setAdmin] = useState([]);
 
     useEffect(() => {
-        if (user && user.ID) {
-            setLoadedUser(user);
-        } else {
-            const storedUserId = localStorage.getItem('userID');
-            if (storedUserId) {
-                setLoadedUser({ ...user, ID: storedUserId });
-            }
+        // Recupera toda la información del usuario desde localStorage
+        const storedUserJson = localStorage.getItem('user');
+        if (storedUserJson) {
+            const userInfo = JSON.parse(storedUserJson);
+            setLoadedUser(userInfo); // Actualiza el estado con la información del usuario
         }
+    
         // Fetch de los administradores desde la API
         const fetchAdmins = async () => {
             try {
@@ -28,18 +27,15 @@ function ListaAdmin() {
                     throw new Error('No se pudo obtener la lista de administradores');
                 }
                 const data = await response.json();
-                setAdmin(data.users); // Ajuste clave aquí para usar data.users
-    
-               
-    
+                setAdmin(data.users); // Asumiendo que la respuesta tiene una propiedad 'users' con la lista de administradores
             } catch (error) {
                 console.error("Error al obtener los administradores:", error);
-                alert("Error al obtener los administradores: " + error.message); // Muestra el mensaje de error en un alert
+                alert("Error al obtener los administradores: " + error.message);
             }
         };
+    
         fetchAdmins(); // Ejecuta la función fetchAdmins al montar el componente
-        
-    }, [user]);
+    }, []); // Las dependencias vacías aseguran que este efecto se ejecute solo una vez al montar el componente
     
 
     const openEditModal = (adminData) => {

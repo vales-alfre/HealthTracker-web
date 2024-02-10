@@ -6,9 +6,14 @@ function Perfil () {
   const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
   const [loadedUser, setLoadedUser] = useState(user);
   useEffect(() => {
-    setLoadedUser(user);
-  }, [user]);
-
+    // Recupera toda la información del usuario desde localStorage
+    const storedUser = localStorage.getItem('user');
+    if (storedUser) {
+        const userInfo = JSON.parse(storedUser);
+        setLoadedUser(userInfo);
+    }
+}, []);
+  
   return (
     <div>
       <Navbar/>
@@ -22,17 +27,17 @@ function Perfil () {
           />
         </div>
         <div className="mt-4">
-          <h2 className="text-xl font-bold text-gray-800">Nombre de Usuario {loadedUser.userId}</h2>
-          <p className="text-gray-500">Correo electrónico@example.com</p>
+          <h2 className="text-xl font-bold text-gray-800">Nombre de Usuario  {loadedUser.ID}</h2>
+          <p className="text-gray-500"> {loadedUser.email}</p>
         </div>
         <div className="mt-6">
           <h3 className="text-lg font-semibold text-gray-800">Información Personal</h3>
           <ul className="mt-2 space-y-2">
             <li>
-              <span className="text-gray-500">Nombre:</span> John Doe
+              <span className="text-gray-500">Nombre:</span> {loadedUser.firstname} {loadedUser.lastname}
             </li>
             <li>
-              <span className="text-gray-500">Fecha de Nacimiento:</span> 01 de enero de 1990
+              <span className="text-gray-500">Fecha de Nacimiento:</span> {loadedUser.birthdate}
             </li>
             {/* Agrega más información personal según sea necesario */}
           </ul>

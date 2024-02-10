@@ -29,9 +29,9 @@ function Iniciosecion() {
   
       if (response.ok) {
         // Convierte los datos del usuario a un string para mostrarlos en la alerta
-        const userDetails = `ID: ${data.user.ID}, Nombre: ${data.user.firstname} ${data.user.lastname}, Email: ${data.user.email}, Teléfono: ${data.user.phone}`;
-        alert(`Éxito: ${data.message}\nDatos del usuario: ${userDetails}`);
-        localStorage.setItem('userID', data.user.ID); 
+        
+        localStorage.setItem('user', JSON.stringify(data.user));
+         alert(`Éxito: ${data.message}\nDatos del usuario: ${localStorage}`);
         navigate('/Home');
       } else {
         alert(`Error: ${data.error}`);
