@@ -5,40 +5,36 @@ import { useUserContext } from '../Routers/UserProvider';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEnvelope, faEye, faEyeSlash, faLock } from '@fortawesome/free-solid-svg-icons';
 function Iniciosecion() {
-  const navigate = useNavigate();
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const navigate = useNavigate()
   const { setUser } = useUserContext();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-  
-    const email = e.target.email.value;
-    const password = e.target.password.value;
-  
+
     try {
-      // Hace una petición POST a la API para verificar las credenciales del usuario
       const response = await fetch('https://carinosaapi.onrender.com/api/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email,
-          password: password,
+          email: email, // Usa el estado email aquí
+          password: password, // Usa el estado password aquí
         }),
       });
-  
+
       if (!response.ok) {
         throw new Error(`HTTP error! status: ${response.status}`);
       }
-  
-      const data = await response.json(); // Obtiene la respuesta de la API
-  
-      // Si la API devuelve un identificador de usuario (u otra forma de confirmar el éxito del login),
-      // puedes usarlo aquí. Asumiremos que la API devuelve algún tipo de token o userId para indicar éxito.
+
+      const data = await response.json();
+
       if (data.userId) {
         // Aquí solo se asigna el userId al estado del usuario, sin roles específicos.
-        setUser({ userId: data.userId }); // Asigna el userId según la respuesta de la API
-        navigate('/Home', { replace: true }); // Navega a la página de inicio
+        setUser({ userId: data.userId }); // Asegúrate de que `setUser` esté definido correctamente en tu contexto o estado global
+        navigate('/Home', { replace: true });
       } else {
         alert('Inicio de sesión fallido. Por favor, intenta de nuevo.');
       }
@@ -74,6 +70,8 @@ function Iniciosecion() {
               required
               className="icon-input appearance-none rounded-none block w-full pl-10 pr-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-curious-blue-700 focus:border-curious-blue-700 focus:z-10 sm:text-sm"
               placeholder="Correo electrónico"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
             </div>
             <div className="relative">
@@ -86,6 +84,8 @@ function Iniciosecion() {
               required
               className="icon-input appearance-none rounded-none block w-full pl-10 pr-3 py-2 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-curious-blue-700 focus:border-curious-blue-700 focus:z-10 sm:text-sm"
               placeholder="Contraseña"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
             </div>
