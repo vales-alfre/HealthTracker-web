@@ -14,40 +14,37 @@ function AppRouters () {
     <Routes>
         <Route path='/' element={<Iniciosecion/>}/>
         <Route path='/Home' element={
-    
-        <Home/>
-  
+            // Envuelve Home dentro de ProtectedRoute sin prop de roles
+            <ProtectedRoute>
+                <Home/>
+            </ProtectedRoute>
         }/>
         <Route path='/Recuperar-contraseña' element={<Recover/>}/> 
         <Route path='/Perfil' element={
-            <ProtectedRoute roles={['admin','caretaker']}>
-        <Perfil/>
-        </ProtectedRoute>}/> 
+            // ProtectedRoute sin prop de roles para Perfil
+            <ProtectedRoute>
+                <Perfil/>
+            </ProtectedRoute>
+        }/>
         
-        <Route
-          path='/Lista_paciente'
-          element={
-            <ProtectedRoute roles={['admin']}>
-              <ListaPacientes/>
+        <Route path='/Lista_paciente' element={
+            // ProtectedRoute sin prop de roles para ListaPacientes
+            <ProtectedRoute>
+                <ListaPacientes/>
             </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/Lista_Admin'
-          element={
-            <ProtectedRoute roles={['admin']}>
-              <ListaAdmin/>
+        }/>
+        <Route path='/Lista_Admin' element={
+            // ProtectedRoute sin prop de roles para ListaAdmin
+            <ProtectedRoute>
+                <ListaAdmin/>
             </ProtectedRoute>
-          }
-        />
-        <Route
-          path='/Lista_cuidador'
-          element={
-            <ProtectedRoute roles={['admin']}>
-              <Curer/>
+        }/>
+        <Route path='/Lista_cuidador' element={
+            // ProtectedRoute sin prop de roles para Curer
+            <ProtectedRoute>
+                <Curer/>
             </ProtectedRoute>
-          }
-        />
+        }/>
     </Routes>
   )
 }
