@@ -14,9 +14,9 @@ function AppRouters () {
     <Routes>
         <Route path='/' element={<Iniciosecion/>}/>
         <Route path='/Home' element={
-            <ProtectedRoute roles={['admin','caretaker']}>
+    
         <Home/>
-        </ProtectedRoute>
+  
         }/>
         <Route path='/Recuperar-contraseña' element={<Recover/>}/> 
         <Route path='/Perfil' element={

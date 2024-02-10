@@ -12,7 +12,7 @@ function Iniciosecion() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  
     try {
       const response = await fetch('https://carinosaapi.onrender.com/api/login', {
         method: 'POST',
@@ -20,29 +20,28 @@ function Iniciosecion() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: email, // Usa el estado email aquí
-          password: password, // Usa el estado password aquí
+          email: email,
+          password: password,
         }),
       });
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      const data = await response.json();
-
-      if (data.userId) {
-        // Aquí solo se asigna el userId al estado del usuario, sin roles específicos.
-        setUser({ userId: data.userId }); // Asegúrate de que `setUser` esté definido correctamente en tu contexto o estado global
-        navigate('/Home', { replace: true });
+  
+      const data = await response.json(); // Intenta parsear la respuesta independientemente del estado de la respuesta
+  
+      if (response.ok) {
+        // Convierte los datos del usuario a un string para mostrarlos en la alerta
+        const userDetails = `ID: ${data.user.ID}, Nombre: ${data.user.firstname} ${data.user.lastname}, Email: ${data.user.email}, Teléfono: ${data.user.phone}`;
+        alert(`Éxito: ${data.message}\nDatos del usuario: ${userDetails}`);
+        localStorage.setItem('userID', data.user.ID); 
+        navigate('/Home');
       } else {
-        alert('Inicio de sesión fallido. Por favor, intenta de nuevo.');
+        alert(`Error: ${data.error}`);
       }
     } catch (error) {
       console.error('Error al intentar iniciar sesión:', error);
-      alert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+      alert('Error al intentar conectar al servidor. Por favor, verifica tu conexión a internet.');
     }
   };
+  
   
   const [showPassword, setShowPassword] = useState(false);
 

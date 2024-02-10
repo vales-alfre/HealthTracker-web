@@ -35,8 +35,7 @@ function Navbar() {
   };
 
   const cerrarSesion = () => {
-    // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
-    navigate("/");
+    navigate('/');
   };
   const perfil = () => {
     // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión

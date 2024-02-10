@@ -21,15 +21,24 @@ function Home() {
   };
 
   useEffect(() => {
-    setLoadedUser(user);
+    // Intenta recuperar el usuario desde el contexto
+    if (user && user.ID) {
+      setLoadedUser(user);
+    } else {
+      // Recupera el ID del usuario desde localStorage si el contexto está vacío
+      const storedUserId = localStorage.getItem('userID');
+      if (storedUserId) {
+        setLoadedUser({ ...user, ID: storedUserId });
+      }
+    }
   }, [user]);
 
   return (
     <div className='bg-black-white-100'>
   <Navbar />
   <div className="container mx-auto px-4 py-8">
-    <h1 className="text-3xl font-bold text-curious-blue-900 mb-6">Bienvenido {loadedUser.userId}</h1>
-    {loadedUser.role === 'admin' && (
+    <h1 className="text-3xl font-bold text-curious-blue-900 mb-6">Bienvenido, ID del usuario: {loadedUser.ID}</h1>
+    {/*{loadedUser.role === 'admin' && (
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-20">
         <CardButton animationData={Admin} options={defaultOptions} title="Administración" navigateTo="/Lista_Admin" />
         <CardButton animationData={patient} options={defaultOptions} title="Pacientes" navigateTo="/Lista_paciente" />
@@ -77,7 +86,12 @@ function Home() {
           </table>
         </div>
       </div>
-    )}
+              )}*/}
+              <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-20">
+        <CardButton animationData={Admin} options={defaultOptions} title="Administración" navigateTo="/Lista_Admin" />
+        <CardButton animationData={patient} options={defaultOptions} title="Pacientes" navigateTo="/Lista_paciente" />
+        <CardButton animationData={carer} options={defaultOptions} title="Cuidadores" navigateTo="/Lista_cuidador" />
+      </div>
   </div>
 </div>
 
