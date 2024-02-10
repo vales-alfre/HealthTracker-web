@@ -8,29 +8,46 @@ function Iniciosecion() {
   const navigate = useNavigate();
   const { setUser } = useUserContext();
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    // Verifica el correo electrónico y la contraseña del usuario aquí
-    const EMAIL_ADMIN = 'admin@example.com';
-    const PASSWORD_ADMIN = 'admin123';
-    const EMAIL_CARETAKER = 'caretaker@example.com';
-    const PASSWORD_CARETAKER = 'caretaker123';
-
+  
     const email = e.target.email.value;
-  const password = e.target.password.value;
-
-  if (email === EMAIL_ADMIN && password === PASSWORD_ADMIN) {
-    setUser({ userId: '22', role: 'admin' }); // Asigna el rol de administrador
-    navigate('/Home', { replace: true });
-  } else if (email === EMAIL_CARETAKER && password === PASSWORD_CARETAKER) {
-    setUser({ userId: '33', role: 'caretaker' }); // Asigna el rol de cuidador
-    navigate('/Home', { replace: true });
-  } else {
-    alert('Correo electrónico o contraseña incorrectos');
-  }
-};
-
+    const password = e.target.password.value;
+  
+    try {
+      // Hace una petición POST a la API para verificar las credenciales del usuario
+      const response = await fetch('https://carinosaapi.onrender.com/api/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: email,
+          password: password,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+  
+      const data = await response.json(); // Obtiene la respuesta de la API
+  
+      // Si la API devuelve un identificador de usuario (u otra forma de confirmar el éxito del login),
+      // puedes usarlo aquí. Asumiremos que la API devuelve algún tipo de token o userId para indicar éxito.
+      if (data.userId) {
+        // Aquí solo se asigna el userId al estado del usuario, sin roles específicos.
+        setUser({ userId: data.userId }); // Asigna el userId según la respuesta de la API
+        navigate('/Home', { replace: true }); // Navega a la página de inicio
+      } else {
+        alert('Inicio de sesión fallido. Por favor, intenta de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error al intentar iniciar sesión:', error);
+      alert('Error al iniciar sesión. Por favor, verifica tus credenciales.');
+    }
+  };
+  
   const [showPassword, setShowPassword] = useState(false);
 
   const handleTogglePassword = () => {
