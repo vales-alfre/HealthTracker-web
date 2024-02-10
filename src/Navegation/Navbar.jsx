@@ -52,7 +52,7 @@ function Navbar() {
       style={{ height: navbarHeight }}
     >
       <div className="container mx-auto flex justify-between items-center z-50">
-  <a href="#"
+  <a 
    onClick={Home} 
    className="p-2 text-xl flex items-center font-bold text-Black-White-950 hover:text-big-stone-50 ">
     <FontAwesomeIcon icon={faHome} className="text-2xl mr-2 "/>
