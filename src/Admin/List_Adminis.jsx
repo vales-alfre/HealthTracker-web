@@ -52,16 +52,30 @@ function ListaAdmin() {
         setEditAdminData(null); // Limpia los datos del admin a editar al cerrar el modal
     };
 
-    const handleDelete = (id) => {
-        // Muestra un diálogo de confirmación
-        const isConfirmed = window.confirm('¿Estás seguro de que deseas eliminar este administrador?');
-        if (isConfirmed) {
-            // Si el usuario confirma, procede con la eliminación
-            const updatedAdmin = Admin.filter(admin => admin.id !== id);
-            setAdmin(updatedAdmin);
+    const handleDelete = async (id) => {
+        if (window.confirm('¿Estás seguro de que deseas eliminar este administrador?')) {
+            try {
+                const response = await fetch(`https://carinosaapi.onrender.com/api/delete/${id}`, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        // Incluye aquí cualquier otro encabezado necesario
+                    },
+                });
+                if (!response.ok) {
+                    throw new Error(`Error: ${response.status}`);
+                }
+                alert('Administrador eliminado con éxito');
+                setAdmin(prevAdmins => prevAdmins.filter(admin => admin.ID !== id)); // Actualiza el estado sin el administrador eliminado
+            } catch (error) {
+                console.error("Error al eliminar el administrador:", error);
+                alert(`Error al eliminar el administrador: ${error.message}`);
+            }
         }
-        // Si el usuario no confirma, no hagas nada
     };
+    
+    
+    
 
 
 
@@ -118,7 +132,7 @@ function ListaAdmin() {
                                             Modificar
                                         </button>
                                         <button
-                                            onClick={() => handleDelete(admin.id)}
+                                            onClick={() => handleDelete(admin.ID)}
                                             className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
                                             Eliminar
                                         </button>
