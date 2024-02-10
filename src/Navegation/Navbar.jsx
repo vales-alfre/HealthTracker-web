@@ -41,6 +41,10 @@ function Navbar() {
     // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
     navigate("/Perfil");
   };
+  const Home = () => {
+    // Aquí puedes añadir cualquier lógica para manejar el cierre de sesión
+    navigate("/Home");
+  };
 
   return (
     <nav
@@ -48,7 +52,9 @@ function Navbar() {
       style={{ height: navbarHeight }}
     >
       <div className="container mx-auto flex justify-between items-center z-50">
-  <a href="/Home" className="p-2 text-xl flex items-center font-bold text-Black-White-950 hover:text-big-stone-50 ">
+  <a href="#"
+   onClick={Home} 
+   className="p-2 text-xl flex items-center font-bold text-Black-White-950 hover:text-big-stone-50 ">
     <FontAwesomeIcon icon={faHome} className="text-2xl mr-2 "/>
      <div className="mt-1">
      Inicio
