@@ -2,13 +2,13 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navegation/Navbar';
 import AdminRegistration from './Register';
 import { useUserContext } from '../Routers/UserProvider';
+import { FaEdit, FaTrash, FaUserInjured } from 'react-icons/fa';
 function ListaAdmin() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const [editAdminData, setEditAdminData] = useState(null);
     const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
     const [loadedUser, setLoadedUser] = useState(user);
-
     const [Admin, setAdmin] = useState([]);
 
     useEffect(() => {
@@ -18,7 +18,7 @@ function ListaAdmin() {
             const userInfo = JSON.parse(storedUserJson);
             setLoadedUser(userInfo); // Actualiza el estado con la información del usuario
         }
-    
+
         // Fetch de los administradores desde la API
         const fetchAdmins = async () => {
             try {
@@ -33,10 +33,10 @@ function ListaAdmin() {
                 alert("Error al obtener los administradores: " + error.message);
             }
         };
-    
+
         fetchAdmins(); // Ejecuta la función fetchAdmins al montar el componente
     }, []); // Las dependencias vacías aseguran que este efecto se ejecute solo una vez al montar el componente
-    
+
 
     const openEditModal = (adminData) => {
         setEditAdminData(adminData); // Establece los datos del admin a editar
@@ -69,9 +69,9 @@ function ListaAdmin() {
             }
         }
     };
-    
-    
-    
+
+
+
 
 
 
@@ -117,21 +117,22 @@ function ListaAdmin() {
                                 <tr key={admin.ID}>
                                     <td className="border px-4 py-2">{admin.firstname + ' ' + admin.lastname}</td>
                                     <td className="border px-4 py-2">{admin.email}</td>
-                                    <td className="border px-4 py-2">{admin.password}</td>
+                                    <td className="border px-4 py-2">
+                                        <input type="password" value={admin.password} readOnly className="bg-transparent border-none" />
+                                    </td>
                                     <td className="border px-4 py-2">{admin.birthdate}</td>
                                     <td className="border px-4 py-2">{admin.gender}</td>
                                     <td className="border px-4 py-2">{admin.phone}</td>
-                                    <td className="border px-4 py-2 flex justify-end items-center space-x-2">
-                                        <button
-                                            onClick={() => openEditModal(admin)}
-                                            className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded">
-                                            Modificar
-                                        </button>
-                                        <button
-                                            onClick={() => handleDelete(admin.ID)}
-                                            className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
-                                            Eliminar
-                                        </button>
+                                    <td className="border px-4 py-2">
+                                        <div className="flex justify-center items-center space-x-2">
+                                            <button onClick={() => openEditModal(admin)} className="text-yellow-700 hover:text-yellow-300" title='Modificar'>
+                                                <FaEdit size="20px" />
+                                            </button>
+                                            <button onClick={() => handleDelete(admin.ID)} className="text-red-700 hover:text-red-300" title='Eliminar'>
+                                                <FaTrash size="20px" />
+                                            </button>
+
+                                        </div>
                                     </td>
                                 </tr>
                             ))}

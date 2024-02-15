@@ -34,15 +34,15 @@ function Home() {
     <div className='bg-black-white-100'>
   <Navbar />
   <div className="container mx-auto px-4 py-8">
-    <h1 className="text-3xl font-bold text-curious-blue-900 mb-6">Bienvenido,{loadedUser.firstname}</h1>
-    {/*{loadedUser.role === 'admin' && (
+    <h1 className="text-3xl font-bold text-curious-blue-900 mb-6">Bienvenido, {loadedUser.firstname} </h1>
+    {loadedUser.roles === 'admin' && (
       <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-20">
         <CardButton animationData={Admin} options={defaultOptions} title="Administración" navigateTo="/Lista_Admin" />
         <CardButton animationData={patient} options={defaultOptions} title="Pacientes" navigateTo="/Lista_paciente" />
         <CardButton animationData={carer} options={defaultOptions} title="Cuidadores" navigateTo="/Lista_cuidador" />
       </div>
     )}
-    {loadedUser.role === 'caretaker' && (
+    {loadedUser.roles === 'cuidador' && (
       <div className="max-w-lg mx-auto">
       <p className="text-xl font-semibold mb-4">Rol: {loadedUser.role}</p>
       <div className="overflow-x-auto shadow-md sm:rounded-lg">
@@ -83,12 +83,8 @@ function Home() {
           </table>
         </div>
       </div>
-              )}*/}
-              <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-20">
-        <CardButton animationData={Admin} options={defaultOptions} title="Administración" navigateTo="/Lista_Admin" />
-        <CardButton animationData={patient} options={defaultOptions} title="Pacientes" navigateTo="/Lista_paciente" />
-        <CardButton animationData={carer} options={defaultOptions} title="Cuidadores" navigateTo="/Lista_cuidador" />
-      </div>
+              )}
+             
   </div>
 </div>
 

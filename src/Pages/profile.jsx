@@ -21,9 +21,9 @@ function Perfil () {
       <div className="bg-white p-8 rounded-md shadow-md w-96">
         <div className="flex items-center justify-center">
           <img
-            src="https://via.placeholder.com/150"
+            src="https://cdn.gogeticon.net/files/2796946/cdd7191499fc93c7906c324361c1134a.png"
             alt="Avatar"
-            className="w-20 h-20 rounded-full"
+            className="w-25 h-20 rounded-full"
           />
         </div>
         <div className="mt-4">

@@ -2,12 +2,13 @@ import React, { useState,useEffect } from 'react';
 import Navbar from '../Navegation/Navbar';
 import { useUserContext } from '../Routers/UserProvider'; 
 import CurerRegistration from './Register';
+import { FaEdit, FaTrash, FaUserInjured } from 'react-icons/fa';
 function ListaCuidador() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
+    const [EditCurerData, setEditCurerData] = useState(null);
     const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
     const [loadedUser, setLoadedUser] = useState(user);
-  
     const [Cuidador, setCuidador] = useState([
         {
             id: 1,
@@ -16,18 +17,16 @@ function ListaCuidador() {
             correo: 'juanperez@example.com',
             contraseña: '********',
             telefono: '123456789',
-            ritmo: '77',
             genero:'Masculino',
             fechaNacimiento:'12-12-1999',
             relacion:'Hijo',
-            Paciente:' Juan Pérez'
 
         },
         // Más pacientes aquí...
     ]);
 
     const openEditModal = (CurerData) => {
-        setEditCurerData(CurerData); // Establece los datos del admin a editar
+        setEditCurerData(CurerData); // Establece los datos del cuidador a editar
         setIsModalOpen(true); // Abre el modal
     };
 
@@ -86,32 +85,31 @@ function ListaCuidador() {
                                 <th className="px-4 py-2">Genero</th>
                                 <th className="px-4 py-2">Teléfono</th>
                                 <th className="px-4 py-2">Relación</th>
-                                <th className="px-4 py-2">Paciente</th>
                                 <th className="px-4 py-2">Acciones</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-700">
                             {Cuidador.map((Cuidar) => (
                                 <tr key={Cuidar.id}>
-                                    <td className="border px-4 py-2">{Cuidar.nombre}</td>
+                                    <td className="border px-4 py-2">{Cuidar.nombre+ ' '+Cuidar.apellidos }</td>
                                     <td className="border px-4 py-2">{Cuidar.correo}</td>
                                     <td className="border px-4 py-2">{Cuidar.contraseña}</td>
                                     <td className="border px-4 py-2">{Cuidar.fechaNacimiento}</td>
                                     <td className="border px-4 py-2">{Cuidar.genero}</td>
                                     <td className="border px-4 py-2">{Cuidar.telefono}</td>
                                     <td className="border px-4 py-2">{Cuidar.relacion}</td>
-                                    <td className="border px-4 py-2">{Cuidar.Paciente}</td>
-                                    <td className="border px-4 py-2 flex justify-end items-center space-x-2">
-                                        <button 
-                                          onClick={() => openEditModal(Cuidar)}
-                                        className="bg-yellow-700 hover:bg-yellow-300 hover:text-black text-white font-bold py-1 px-2 rounded">
-                                            Modificar
+                                    <td className="border px-4 py-2">
+                                    <div className="flex justify-center items-center space-x-2">
+                                        <button onClick={() => openEditModal(Cuidar)} className="text-yellow-700 hover:text-yellow-300" title='Modificar'>
+                                            <FaEdit size="20px" />
                                         </button>
-                                        <button 
-                                         onClick={() => handleDelete(Cuidar.id)}
-                                        className="bg-pomegranate-900 hover:bg-pomegranate-500 hover:text-black text-white font-bold py-1 px-2 rounded">
-                                            Eliminar
+                                        <button onClick={() => handleDelete(Cuidar.id)} className="text-red-700 hover:text-red-300" title='Eliminar'>
+                                            <FaTrash  size="20px"/>
                                         </button>
+                                        <button className="text-blue-700 hover:text-blue-300" title='Agregar Paciente'>
+                                            <FaUserInjured  size="20px"/>
+                                        </button>
+                                        </div>
                                     </td>
                                 </tr>
                             ))}
@@ -123,7 +121,7 @@ function ListaCuidador() {
                                 <button onClick={closeModal} className="absolute top-0 right-0 mt-2 mr-2">
                                     <i className="fas fa-times"></i>
                                 </button>
-                                < CurerRegistration closeModal={closeModal} adminData={editCurerData} />
+                                < CurerRegistration closeModal={closeModal} CurerData={EditCurerData} />
                             </div>
                         </div>
                     )}

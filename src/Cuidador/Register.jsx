@@ -1,24 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../Routers/UserProvider';
-function CurerRegistration({ closeModal, handleSubmit2, adminData }) {
-
-    useEffect(() => {
-        if (adminData) {
-            setFormData(adminData);
-        }
-    }, [adminData]);
-
+function CurerRegistration({ closeModal, handleSubmit2, CurerData }) {
     const [formData, setFormData] = useState({
         nombre: '',
-        apellidos: '',
+        apellidos:'',
         correo: '',
         contraseña: '',
-        fechaNacimiento: '',
-        genero: '',
         telefono: '',
-        relacion: '',
-        paciente:''
+        genero:'',
+        fechaNacimiento:'',
+        relacion:'',
     });
+    
+    useEffect(() => {
+        if (CurerData) {
+            setFormData(CurerData);
+        }
+    }, [CurerData]);
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
@@ -35,7 +33,7 @@ function CurerRegistration({ closeModal, handleSubmit2, adminData }) {
 
             <form onSubmit={handleFormSubmit} className="space-y-4">
                 <div className="flex flex-col">
-                    <label htmlFor="nombre" className="mb-2 font-semibold text-gray-700">Nombre</label>
+                    <label htmlFor="nombre"className="block text-sm font-medium text-gray-700">Nombre</label>
                     <input type="text" name="nombre" required minLength="2" value={formData.nombre} onChange={handleChange} className="px-4 py-2 border rounded-lg focus:outline-none focus:border-indigo-500" />
                 </div>
 
@@ -86,11 +84,7 @@ function CurerRegistration({ closeModal, handleSubmit2, adminData }) {
                     <label htmlFor="relacion" className="block text-sm font-medium text-gray-700">Raleción</label>
                     <input type="text" name="relacion" required minLength="2" value={formData.relacion} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
                 </div>
-                {/* Parentesco */}
-                <div>
-                    <label htmlFor="Paciente" className="block text-sm font-medium text-gray-700">Paciente</label>
-                    <input type="text" name="Paciente" required minLength="2" value={formData.Paciente} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-                </div>
+
                 {/* Botón de envío */}
                 <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
                     Registrar
