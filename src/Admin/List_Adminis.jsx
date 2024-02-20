@@ -2,15 +2,25 @@ import React, { useState, useEffect } from 'react';
 import Navbar from '../Navegation/Navbar';
 import AdminRegistration from './Register';
 import { useUserContext } from '../Routers/UserProvider';
-import { FaEdit, FaTrash, FaUserInjured } from 'react-icons/fa';
+import { FaEdit, FaTrash, FaEye, FaEyeSlash } from 'react-icons/fa';
+
+
 function ListaAdmin() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
+    const [reload, setReload] = useState(false);
+    const [showPassword, setShowPassword] = useState({});
     const [editAdminData, setEditAdminData] = useState(null);
     const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
     const [loadedUser, setLoadedUser] = useState(user);
     const [Admin, setAdmin] = useState([]);
 
+    const toggleShowPassword = (id) => {
+        setShowPassword(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
+        }));
+    };
     useEffect(() => {
         // Recupera toda la información del usuario desde localStorage
         const storedUserJson = localStorage.getItem('user');
@@ -19,23 +29,36 @@ function ListaAdmin() {
             setLoadedUser(userInfo); // Actualiza el estado con la información del usuario
         }
 
-        // Fetch de los administradores desde la API
         const fetchAdmins = async () => {
             try {
-                const response = await fetch('https://carinosaapi.onrender.com/api/getAll');
+                // Definición del cuerpo de la solicitud
+                const bodyData = {
+                    role: "admin"
+                };
+
+                // Intento de realizar una solicitud GET con un cuerpo, a pesar de que esto no es estándar
+                const response = await fetch('https://carinosaapi.onrender.com/user/getAllRoles', {
+                    method: 'POST', // Aquí se intenta usar GET, pero este enfoque no es recomendado
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(bodyData) // Convertir el cuerpo a string JSON
+                });
+
                 if (!response.ok) {
                     throw new Error('No se pudo obtener la lista de administradores');
                 }
                 const data = await response.json();
-                setAdmin(data.users); // Asumiendo que la respuesta tiene una propiedad 'users' con la lista de administradores
+                setAdmin(data.users); // Asume que la respuesta incluye una propiedad 'users'
             } catch (error) {
                 console.error("Error al obtener los administradores:", error);
                 alert("Error al obtener los administradores: " + error.message);
             }
         };
 
+
         fetchAdmins(); // Ejecuta la función fetchAdmins al montar el componente
-    }, []); // Las dependencias vacías aseguran que este efecto se ejecute solo una vez al montar el componente
+    }, [user, reload]); // Las dependencias vacías aseguran que este efecto se ejecute solo una vez al montar el componente
 
 
     const openEditModal = (adminData) => {
@@ -46,6 +69,7 @@ function ListaAdmin() {
     const closeModal = () => {
         setIsModalOpen(false);
         setEditAdminData(null); // Limpia los datos del admin a editar al cerrar el modal
+        setReload(prev => !prev);
     };
 
     const handleDelete = async (id) => {
@@ -81,7 +105,7 @@ function ListaAdmin() {
             {/* Encabezado y botón de registro */}
             <div className=" mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-4">
-                    <h1 className="text-xl font-bold text-gray-700">Adminstrador Registrados {loadedUser.ID}</h1>
+                    <h1 className="text-xl font-bold text-gray-700">Adminstrador Registrados</h1>
                     <button onClick={openModal} className="bg-java-800 hover:bg-java-400 hover:text-Black-White-950 text-white font-bold py-2 px-4 rounded">
                         Registrar Adminstrador
                     </button>
@@ -117,8 +141,19 @@ function ListaAdmin() {
                                 <tr key={admin.ID}>
                                     <td className="border px-4 py-2">{admin.firstname + ' ' + admin.lastname}</td>
                                     <td className="border px-4 py-2">{admin.email}</td>
-                                    <td className="border px-4 py-2">
-                                        <input type="password" value={admin.password} readOnly className="bg-transparent border-none" />
+                                    <td className="border px-4 py-2 items-center justify-between">
+                                        <input
+                                            type={showPassword[admin.ID] ? 'text' : 'password'}
+                                            value={admin.password}
+                                            readOnly
+                                            className="bg-transparent border-none"
+                                        />
+                                        <button
+                                            onClick={() => toggleShowPassword(admin.ID)}
+                                            className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                                        >
+                                            {showPassword[admin.ID] ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
                                     </td>
                                     <td className="border px-4 py-2">{admin.birthdate}</td>
                                     <td className="border px-4 py-2">{admin.gender}</td>
@@ -131,7 +166,6 @@ function ListaAdmin() {
                                             <button onClick={() => handleDelete(admin.ID)} className="text-red-700 hover:text-red-300" title='Eliminar'>
                                                 <FaTrash size="20px" />
                                             </button>
-
                                         </div>
                                     </td>
                                 </tr>

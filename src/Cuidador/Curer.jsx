@@ -1,29 +1,62 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import Navbar from '../Navegation/Navbar';
-import { useUserContext } from '../Routers/UserProvider'; 
 import CurerRegistration from './Register';
-import { FaEdit, FaTrash, FaUserInjured } from 'react-icons/fa';
+import { useUserContext } from '../Routers/UserProvider';
+import { FaEdit, FaTrash, FaUserInjured,FaEye, FaEyeSlash } from 'react-icons/fa';
+
 function ListaCuidador() {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const openModal = () => setIsModalOpen(true);
     const [EditCurerData, setEditCurerData] = useState(null);
+    const [showPassword, setShowPassword] = useState({});
+    const [reload, setReload] = useState(false);
     const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
     const [loadedUser, setLoadedUser] = useState(user);
-    const [Cuidador, setCuidador] = useState([
-        {
-            id: 1,
-            nombre: 'Juan ',
-            apellidos:'Pérez',
-            correo: 'juanperez@example.com',
-            contraseña: '********',
-            telefono: '123456789',
-            genero:'Masculino',
-            fechaNacimiento:'12-12-1999',
-            relacion:'Hijo',
+    const [Cuidador, setCuidador] = useState([]);
+    const toggleShowPassword = (id) => {
+        setShowPassword(prevState => ({
+            ...prevState,
+            [id]: !prevState[id]
+        }));
+    };
 
-        },
-        // Más pacientes aquí...
-    ]);
+    useEffect(() => {
+        const fetchCuidadores = async () => {
+            try {
+                const response = await fetch('https://carinosaapi.onrender.com/user/getAllRoles', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ role: "cuidador" })
+                });
+
+                if (!response.ok) {
+                    throw new Error('No se pudo obtener la lista de cuidadores');
+                }
+
+                const responseData = await response.json();
+                if (responseData && responseData.users) {
+                    setCuidador(responseData.users.map(user => ({
+                        id: user.ID,
+                        nombre: user.firstname,
+                        apellidos: user.lastname,
+                        correo: user.email,
+                        contraseña: user.password,
+                        telefono: user.phone,
+                        genero: user.gender,
+                        fechaNacimiento: user.birthdate,
+                        relacion: user.Cuidador ? user.Cuidador.relacion : 'N/A', // Asumiendo que siempre hay un objeto Cuidador
+                    })));
+                }
+            } catch (error) {
+                console.error("Error al obtener los cuidadores:", error);
+                alert("Error al obtener los cuidadores: " + error.message);
+            }
+        };
+
+        fetchCuidadores();
+    },  [user, reload])
 
     const openEditModal = (CurerData) => {
         setEditCurerData(CurerData); // Establece los datos del cuidador a editar
@@ -33,6 +66,7 @@ function ListaCuidador() {
     const closeModal = () => {
         setIsModalOpen(false);
         setEditCurerData(null); // Limpia los datos del admin a editar al cerrar el modal
+        setReload(prev => !prev); // Cambia el estado para forzar la recarga
     };
 
     const handleDelete = (id) => {
@@ -93,7 +127,20 @@ function ListaCuidador() {
                                 <tr key={Cuidar.id}>
                                     <td className="border px-4 py-2">{Cuidar.nombre+ ' '+Cuidar.apellidos }</td>
                                     <td className="border px-4 py-2">{Cuidar.correo}</td>
-                                    <td className="border px-4 py-2">{Cuidar.contraseña}</td>
+                                    <td className="border px-4 py-2 items-center justify-between">
+                                        <input
+                                            type={showPassword[Cuidar.id] ? 'text' : 'password'}
+                                            value={Cuidar.contraseña}
+                                            readOnly
+                                            className="bg-transparent border-none"
+                                        />
+                                        <button
+                                            onClick={() => toggleShowPassword(Cuidar.id)}
+                                            className="text-gray-600 hover:text-gray-900 focus:outline-none"
+                                        >
+                                            {showPassword[Cuidar.id] ? <FaEyeSlash /> : <FaEye />}
+                                        </button>
+                                    </td>
                                     <td className="border px-4 py-2">{Cuidar.fechaNacimiento}</td>
                                     <td className="border px-4 py-2">{Cuidar.genero}</td>
                                     <td className="border px-4 py-2">{Cuidar.telefono}</td>

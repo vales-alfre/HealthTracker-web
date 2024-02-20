@@ -1,13 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useUserContext } from '../Routers/UserProvider';
-function PatientRegistration({ closeModal, handleSubmit2,adminData }) {
+function PatientRegistration({ closeModal,patientData }) {
    
-    useEffect(() => {
-        if (adminData) {
-            setFormData(adminData);
-        }
-    }, [adminData]);
-
     const [formData, setFormData] = useState({
         nombre: '',
         apellidos: '',
@@ -16,21 +10,59 @@ function PatientRegistration({ closeModal, handleSubmit2,adminData }) {
         fechaNacimiento: '',
         genero: '',
         telefono: '',
-        ritmoCardiaco: '',
         numeroEmergencia: ''
     });
 
-    const handleFormSubmit = (e) => {
-        e.preventDefault();
-        if (!validateForm()) return;
-        handleSubmit2(formData); // Esta función ahora debe manejar tanto la creación como la actualización
-        closeModal(); // Cerrar el modal después del envío
-    };
+    useEffect(() => {
+        if (patientData) {
+            setFormData(patientData);
+        }
+    }, [patientData]);
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
 
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        const dataToSend = {
+            firstname: formData.nombre,
+            lastname: formData.apellidos,
+            email: formData.correo,
+            password: formData.contraseña,
+            birthdate: formData.fechaNacimiento,
+            gender: formData.genero,
+            phone: formData.telefono,
+            roles: "paciente",
+            numeroEmergencia: formData.numeroEmergencia
+        };
+
+        const baseUrl = 'https://carinosaapi.onrender.com/';
+        const endpoint = patientData ? `api/update/${patientData.id}` : 'user/insertpaciente'; // Cambia según si estás actualizando o insertando
+        const method = patientData ? 'PUT' : 'POST';
+
+        try {
+            const response = await fetch(`${baseUrl}${endpoint}`, {
+                method: method,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend),
+            });
+
+            if (!response.ok) {
+                throw new Error('Error al procesar la solicitud');
+            }
+
+            alert(`Paciente ${patientData ? 'actualizado' : 'registrado'} con éxito`);
+            closeModal(); // Cierra el modal después del envío
+        } catch (error) {
+            console.error("Error:", error);
+            alert(`Error: ${error.message}`);
+        }
+    };
+    const buttonText = patientData ? 'Modificar' : 'Registrar';
     return (
         <>
            
@@ -82,14 +114,6 @@ function PatientRegistration({ closeModal, handleSubmit2,adminData }) {
                     <label htmlFor="telefono" className="block text-sm font-medium text-gray-700">Teléfono</label>
                     <input type="tel" name="telefono" required pattern="[0-9]{10}" title="El teléfono debe tener 10 dígitos numéricos." value={formData.telefono} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
                 </div>
-
-
-                {/* Ritmo Cardíaco */}
-                <div>
-                    <label htmlFor="ritmoCardiaco" className="block text-sm font-medium text-gray-700">Ritmo Cardíaco</label>
-                    <input type="number" required pattern="[0-9]" name="ritmoCardiaco" value={formData.ritmoCardiaco} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
-                </div>
-
                 {/* Número de Emergencia */}
                 <div>
                     <label htmlFor="numeroEmergencia" className="block text-sm font-medium text-gray-700">Número de Emergencia</label>
@@ -97,7 +121,7 @@ function PatientRegistration({ closeModal, handleSubmit2,adminData }) {
                 </div>
                 {/* Botón de envío */}
                 <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Registrar
+                {buttonText}
                 </button>
             </form>
         </>

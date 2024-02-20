@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useUserContext } from '../Routers/UserProvider';
-function CurerRegistration({ closeModal, handleSubmit2, CurerData }) {
+function CurerRegistration({ closeModal, CurerData }) {
     const [formData, setFormData] = useState({
         nombre: '',
         apellidos:'',
@@ -18,16 +17,56 @@ function CurerRegistration({ closeModal, handleSubmit2, CurerData }) {
         }
     }, [CurerData]);
 
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        if (!validateForm()) return;
-        handleSubmit2(formData); // Esta función ahora debe manejar tanto la creación como la actualización
-        closeModal(); // Cerrar el modal después del envío
+    
+        // Convierte los campos del formulario al formato esperado por el backend
+        const dataToSend = {
+            firstname: formData.nombre,
+            lastname: formData.apellidos,
+            email: formData.correo,
+            password: formData.contraseña,
+            birthdate: formData.fechaNacimiento,
+            gender: formData.genero,
+            phone: formData.telefono,
+            roles: "cuidador", 
+            relacion: formData.relacion,
+        };
+    
+        // Determina si estás actualizando o insertando
+        const isUpdating = CurerData && CurerData.id;
+        const endpoint = isUpdating ? `api/update/${CurerData.id}` : 'user/insertcuidador';
+    
+        // Muestra una alerta con los datos a enviar (para depuración)
+        alert(`Datos a enviar: ${JSON.stringify(dataToSend, null, 2)}`);
+    
+        try {
+            const response = await fetch(`https://carinosaapi.onrender.com/${endpoint}`, {
+                method: isUpdating ? 'PUT' : 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(dataToSend),
+            });
+    
+            if (!response.ok) {
+                throw new Error('Error al procesar la solicitud');
+            }
+    
+            alert(`Cuidador ${isUpdating ? 'actualizado' : 'registrado'} con éxito`);
+            // Actualiza cualquier estado necesario aquí, como la recarga de la lista de cuidadores
+            closeModal();
+        } catch (error) {
+            console.error("Error:", error);
+            alert(`Error: ${error.message}`);
+        }
     };
+    
 
     const handleChange = (event) => {
         setFormData({ ...formData, [event.target.name]: event.target.value });
     };
+    const buttonText = CurerData ? 'Modificar' : 'Registrar';
     return (
         <>
 
@@ -87,7 +126,7 @@ function CurerRegistration({ closeModal, handleSubmit2, CurerData }) {
 
                 {/* Botón de envío */}
                 <button type="submit" className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                    Registrar
+                {buttonText}
                 </button>
             </form>
         </>

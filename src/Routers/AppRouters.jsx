@@ -8,8 +8,8 @@ import ListaPacientes from '../Paciente/list'
 import ListaAdmin from '../Admin/List_Adminis'
 import Curer from '../Cuidador/Curer'
 
-function AppRouters () {
-  return (
+function AppRouters() {
+    return (
     <Routes>
         <Route path='/' element={<Iniciosecion/>}/>
         <Route path='/Home' element={
@@ -44,7 +44,9 @@ function AppRouters () {
                 <Curer/>
          
         }/>
+         
     </Routes>
+   
   )
 }
 

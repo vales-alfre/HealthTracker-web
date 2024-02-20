@@ -25,8 +25,8 @@ function AdminRegistration({ closeModal, adminData }) {
 
         // Determina si estás actualizando o insertando basado en si `adminData` tiene un ID
         const isUpdating = adminData && adminData.ID;
-        const baseUrl = 'https://carinosaapi.onrender.com/user/';
-        const endpoint = isUpdating ? `update/${adminData.ID}` : 'insertadmin';
+        const baseUrl = 'https://carinosaapi.onrender.com/';
+        const endpoint = isUpdating ? `api/update/${adminData.ID}` : 'user/insertadmin';
         const method = isUpdating ? 'PUT' : 'POST'; // Usa PUT para actualizar, POST para insertar
 
         try {
