@@ -25,13 +25,21 @@ function Iniciosecion() {
         }),
       });
   
-      const data = await response.json(); // Intenta parsear la respuesta independientemente del estado de la respuesta
+      const data = await response.json(); 
   
       if (response.ok) {
-        // Convierte los datos del usuario a un string para mostrarlos en la alerta
         
-        localStorage.setItem('user', JSON.stringify(data.user));
-         alert(`Éxito: ${data.message}\nDatos del usuario: ${localStorage}`);
+        const simplifiedUser = {
+          ID: data.user.ID,
+          firstname: data.user.firstname,
+          lastname: data.user.lastname,
+          email: data.user.email,
+          roles: data.user.roles,
+          CuidadorID: data.user.Cuidador ? data.user.Cuidador.ID : null, 
+        };
+  
+        localStorage.setItem('user', JSON.stringify(simplifiedUser));
+
         navigate('/Home');
       } else {
         alert(`Error: ${data.error}`);
@@ -41,6 +49,8 @@ function Iniciosecion() {
       alert('Error al intentar conectar al servidor. Por favor, verifica tu conexión a internet.');
     }
   };
+  
+  
   
   
   const [showPassword, setShowPassword] = useState(false);

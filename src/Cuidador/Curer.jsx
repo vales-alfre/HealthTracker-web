@@ -15,7 +15,7 @@ function ListaCuidador() {
     const [isGetPacienteOpen, setIsGetPacienteOpen] = useState(false);
     const [reload, setReload] = useState(false);
     const [selectedCuidador, setSelectedCuidador] = useState(null);
-    const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
+    const { user } = useUserContext();
     const [loadedUser, setLoadedUser] = useState(user);
     const [Cuidador, setCuidador] = useState([]);
     const toggleShowPassword = (id) => {
@@ -46,6 +46,7 @@ function ListaCuidador() {
                         id: user.ID,
                         nombre: user.firstname,
                         apellidos: user.lastname,
+                        cedula: user.cedula,
                         correo: user.email,
                         contraseña: user.password,
                         telefono: user.phone,
@@ -65,26 +66,26 @@ function ListaCuidador() {
     }, [user, reload])
 
     const openEditModal = (CurerData) => {
-        setEditCurerData(CurerData); // Establece los datos del cuidador a editar
-        setIsModalOpen(true); // Abre el modal
+        setEditCurerData(CurerData); 
+        setIsModalOpen(true); 
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setEditCurerData(null); // Limpia los datos del admin a editar al cerrar el modal
-        setReload(prev => !prev); // Cambia el estado para forzar la recarga
+        setEditCurerData(null); 
+        setReload(prev => !prev); 
     };
     const openLinkModal = (cuidador) => {
-        setSelectedCuidador(cuidador); // Almacena el cuidador seleccionado
+        setSelectedCuidador(cuidador); 
         setIsLinkModalOpen(true);
     };
 
     const closeModallink = () => {
         setIsModalOpen(false);
-        setIsLinkModalOpen(false); // Cierra ambos modales si están abiertos
+        setIsLinkModalOpen(false); 
     };
     const openGetPaciente = (cuidador) => {
-        setSelectedCuidador(cuidador); // Almacena el ID del cuidador seleccionado
+        setSelectedCuidador(cuidador); 
         setIsGetPacienteOpen(true);
     };
 
@@ -93,14 +94,11 @@ function ListaCuidador() {
     };
 
     const handleDelete = (id) => {
-        // Muestra un diálogo de confirmación
         const isConfirmed = window.confirm('¿Estás seguro de que deseas eliminar este Cuidador?');
         if (isConfirmed) {
-            // Si el usuario confirma, procede con la eliminación
             const updateCuidador = Cuidador.filter(Cuidar => Cuidar.id !== id);
             setCuidador(updateCuidador);
         }
-        // Si el usuario no confirma, no hagas nada
     };
     useEffect(() => {
         setLoadedUser(user);
@@ -110,7 +108,6 @@ function ListaCuidador() {
     return (
         <>
             <Navbar />
-            {/* Encabezado y botón de registro */}
             <div className=" mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-xl font-bold text-gray-700">Cuidador Registrados {loadedUser.userId}</h1>
@@ -118,15 +115,12 @@ function ListaCuidador() {
                         Registrar Cuidador
                     </button>
                 </div>
-
-
-
-                {/* Tabla de pacientes */}
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white " style={{ minWidth: "100%" }}>
                         <thead className="bg-curious-blue-700 text-white">
                             <tr>
                                 <th className="px-4 py-2">Nombre</th>
+                                <th className="px-4 py-2">Cedula</th>
                                 <th className="px-4 py-2">Correo</th>
                                 <th className="px-4 py-2">Contraseña</th>
                                 <th className="px-4 py-2">Fecha de nacimiento</th>
@@ -139,6 +133,7 @@ function ListaCuidador() {
                             {Cuidador.map((Cuidar) => (
                                 <tr key={Cuidar.id}>
                                     <td className="border px-4 py-2">{Cuidar.nombre + ' ' + Cuidar.apellidos}</td>
+                                    <td className="border px-4 py-2">{Cuidar.cedula}</td>
                                     <td className="border px-4 py-2">{Cuidar.correo}</td>
                                     <td className="border px-4 py-2 items-center justify-between">
                                         <input

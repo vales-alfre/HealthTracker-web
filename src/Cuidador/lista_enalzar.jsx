@@ -15,7 +15,7 @@ function GetPaciente({ closeModal, cuidador }) {
                 const pacientesEnlazados = pacientesDelCuidador.map(item => ({
                     id: item.PacienteID,
                     nombre: `${item.Paciente.User.firstname} ${item.Paciente.User.lastname}`,
-                    cedula: item.Paciente.UserID,
+                    cedula: item.Paciente.User.cedula,
                 }));
     
                 setPacientes(pacientesEnlazados);

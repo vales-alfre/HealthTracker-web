@@ -11,7 +11,7 @@ function ListaAdmin() {
     const [reload, setReload] = useState(false);
     const [showPassword, setShowPassword] = useState({});
     const [editAdminData, setEditAdminData] = useState(null);
-    const { user } = useUserContext(); // Obtiene el usuario del contexto, que incluye el rol
+    const { user } = useUserContext(); 
     const [loadedUser, setLoadedUser] = useState(user);
     const [Admin, setAdmin] = useState([]);
 
@@ -22,34 +22,32 @@ function ListaAdmin() {
         }));
     };
     useEffect(() => {
-        // Recupera toda la información del usuario desde localStorage
         const storedUserJson = localStorage.getItem('user');
         if (storedUserJson) {
             const userInfo = JSON.parse(storedUserJson);
-            setLoadedUser(userInfo); // Actualiza el estado con la información del usuario
+            setLoadedUser(userInfo); 
         }
 
         const fetchAdmins = async () => {
             try {
-                // Definición del cuerpo de la solicitud
                 const bodyData = {
                     role: "admin"
                 };
 
-                // Intento de realizar una solicitud GET con un cuerpo, a pesar de que esto no es estándar
+                
                 const response = await fetch('https://carinosaapi.onrender.com/user/getAllRoles', {
-                    method: 'POST', // Aquí se intenta usar GET, pero este enfoque no es recomendado
+                    method: 'POST', 
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify(bodyData) // Convertir el cuerpo a string JSON
+                    body: JSON.stringify(bodyData) 
                 });
 
                 if (!response.ok) {
                     throw new Error('No se pudo obtener la lista de administradores');
                 }
                 const data = await response.json();
-                setAdmin(data.users); // Asume que la respuesta incluye una propiedad 'users'
+                setAdmin(data.users); 
             } catch (error) {
                 console.error("Error al obtener los administradores:", error);
                 alert("Error al obtener los administradores: " + error.message);
@@ -57,18 +55,18 @@ function ListaAdmin() {
         };
 
 
-        fetchAdmins(); // Ejecuta la función fetchAdmins al montar el componente
-    }, [user, reload]); // Las dependencias vacías aseguran que este efecto se ejecute solo una vez al montar el componente
+        fetchAdmins(); 
+    }, [user, reload]); 
 
 
     const openEditModal = (adminData) => {
-        setEditAdminData(adminData); // Establece los datos del admin a editar
-        setIsModalOpen(true); // Abre el modal
+        setEditAdminData(adminData); 
+        setIsModalOpen(true); 
     };
 
     const closeModal = () => {
         setIsModalOpen(false);
-        setEditAdminData(null); // Limpia los datos del admin a editar al cerrar el modal
+        setEditAdminData(null); 
         setReload(prev => !prev);
     };
 
@@ -79,14 +77,13 @@ function ListaAdmin() {
                     method: 'DELETE',
                     headers: {
                         'Content-Type': 'application/json',
-                        // Incluye aquí cualquier otro encabezado necesario
                     },
                 });
                 if (!response.ok) {
                     throw new Error(`Error: ${response.status}`);
                 }
                 alert('Administrador eliminado con éxito');
-                setAdmin(prevAdmins => prevAdmins.filter(admin => admin.ID !== id)); // Actualiza el estado sin el administrador eliminado
+                setAdmin(prevAdmins => prevAdmins.filter(admin => admin.ID !== id)); 
             } catch (error) {
                 console.error("Error al eliminar el administrador:", error);
                 alert(`Error al eliminar el administrador: ${error.message}`);
@@ -102,7 +99,6 @@ function ListaAdmin() {
     return (
         <>
             <Navbar />
-            {/* Encabezado y botón de registro */}
             <div className=" mx-auto px-4 py-8">
                 <div className="flex justify-between items-center mb-4">
                     <h1 className="text-xl font-bold text-gray-700">Adminstrador Registrados</h1>
@@ -122,12 +118,12 @@ function ListaAdmin() {
                     </div>
                 )}
 
-                {/* Tabla de pacientes */}
                 <div className="overflow-x-auto">
                     <table className="min-w-full bg-white " style={{ minWidth: "100%" }}>
                         <thead className="bg-curious-blue-700 text-white">
                             <tr>
                                 <th className="px-4 py-2">Nombre</th>
+                                <th className="px-4 py-2">Cedula</th>
                                 <th className="px-4 py-2">Correo</th>
                                 <th className="px-4 py-2">Contraseña</th>
                                 <th className="px-4 py-2">Fecha de nacimiento</th>
@@ -140,6 +136,7 @@ function ListaAdmin() {
                             {Admin.map((admin) => (
                                 <tr key={admin.ID}>
                                     <td className="border px-4 py-2">{admin.firstname + ' ' + admin.lastname}</td>
+                                    <td className="border px-4 py-2">{admin.cedula}</td>
                                     <td className="border px-4 py-2">{admin.email}</td>
                                     <td className="border px-4 py-2 items-center justify-between">
                                         <input

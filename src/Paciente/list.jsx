@@ -40,6 +40,7 @@ function ListaPacientes() {
                         id: user.ID,
                         nombre: user.firstname,
                         apellidos: user.lastname,
+                        cedula:user.cedula,
                         correo: user.email,
                         contraseña: user.password,
                         telefono: user.phone,
@@ -111,6 +112,7 @@ function ListaPacientes() {
                         <thead className="bg-curious-blue-700 text-white">
                             <tr>
                                 <th className="px-4 py-2">Nombre</th>
+                                <th className="px-4 py-2">Cedula</th>
                                 <th className="px-4 py-2">Correo</th>
                                 <th className="px-4 py-2">Contraseña</th>
                                 <th className="px-4 py-2">Fecha de nacimiento</th>
@@ -124,6 +126,7 @@ function ListaPacientes() {
                             {pacientes.map((paciente) => (
                                 <tr key={paciente.id}>
                                     <td className="border px-4 py-2">{paciente.nombre + ' ' + paciente.apellidos}</td>
+                                    <td className="border px-4 py-2">{paciente.cedula}</td>
                                     <td className="border px-4 py-2">{paciente.correo}</td>
                                     <td className="border px-4 py-2">
                                         <div className="flex items-center justify-between">

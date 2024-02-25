@@ -6,6 +6,7 @@ function PatientRegistration({ closeModal,patientData }) {
         nombre: '',
         apellidos: '',
         correo: '',
+        cedula:'',
         contraseña: '',
         fechaNacimiento: '',
         genero: '',
@@ -29,6 +30,7 @@ function PatientRegistration({ closeModal,patientData }) {
         const dataToSend = {
             firstname: formData.nombre,
             lastname: formData.apellidos,
+            cedula:formData.cedula,
             email: formData.correo,
             password: formData.contraseña,
             birthdate: formData.fechaNacimiento,
@@ -76,6 +78,10 @@ function PatientRegistration({ closeModal,patientData }) {
                 <div>
                     <label htmlFor="apellidos" className="block text-sm font-medium text-gray-700">Apellidos</label>
                     <input type="text" name="apellidos" required minLength="2" value={formData.apellidos} onChange={handleChange} className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
+                </div>
+                <div>
+                    <label htmlFor="cedula" className="block text-sm font-medium text-gray-700">Cedula</label>
+                    <input type="tel" name="cedula" required pattern="[0-9]{10}" title="La cedula debe tener 10 dígitos numéricos." value={formData.cedula} onChange={handleChange} maxLength="10" className="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500" />
                 </div>
 
                    {/* Correo - Requerido y formato de correo */}

@@ -7,6 +7,7 @@ import Perfil from '../Pages/profile'
 import ListaPacientes from '../Paciente/list'
 import ListaAdmin from '../Admin/List_Adminis'
 import Curer from '../Cuidador/Curer'
+import Info_Paciente from '../Pages/Info_Paciente'
 
 function AppRouters() {
     return (
@@ -44,6 +45,7 @@ function AppRouters() {
                 <Curer/>
          
         }/>
+         <Route path='/Informacion_Paciente' element={<Info_Paciente/>}/>
          
     </Routes>
    

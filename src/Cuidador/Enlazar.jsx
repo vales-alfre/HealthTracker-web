@@ -33,7 +33,7 @@ function LinkModal({ closeModal, cuidador }) {
     };
 
     fetchPacientes();
-  }, []); // Dependencias vacías para ejecutar solo al montar el componente
+  }, []); 
   
   const enlazarPacienteConCuidador = async () => {
     if (!selectedPaciente || !cuidador) {
@@ -47,9 +47,6 @@ function LinkModal({ closeModal, cuidador }) {
       CuidadorID: cuidador.cuidaadorid
     });
   
-    // Alerta para mostrar el cuerpo de la solicitud
-    alert(`Cuerpo de la solicitud: ${requestBody}`);
-  
     try {
       const response = await fetch('https://carinosaapi.onrender.com/pacientecuidador/insert', {
         method: 'POST',
@@ -59,7 +56,7 @@ function LinkModal({ closeModal, cuidador }) {
         body: requestBody,
       });
   
-      const responseData = await response.json(); // Intenta parsear la respuesta independientemente del status de la respuesta
+      const responseData = await response.json(); 
   
       if (!response.ok) {
         throw new Error(responseData.error || 'Error al enlazar paciente con cuidador');
@@ -94,7 +91,7 @@ function LinkModal({ closeModal, cuidador }) {
               id="cuidador"
               type="text"
               className="bg-gray-50 border border-gray-300 text-black text-sm rounded-lg block w-full p-2.5 dark:bg-Black-White-200 dark:border-gray-500 dark:placeholder-gray-400 dark:text-black"
-              value={cuidador ? `${cuidador.nombre} ${cuidador.apellidos}` : ''} // Corregido para usar prop 'cuidador'
+              value={cuidador ? `${cuidador.nombre} ${cuidador.apellidos}` : ''} 
               readOnly
             />
           </div>
@@ -119,7 +116,7 @@ function LinkModal({ closeModal, cuidador }) {
             <button
               type="button"
               className="px-4 py-2 bg-java-900 text-white hover:text-black text-sm font-medium rounded hover:bg-java-300 focus:outline-none focus:bg-java-300"
-              onClick={enlazarPacienteConCuidador} // Aquí conectas el botón con la función
+              onClick={enlazarPacienteConCuidador} 
             >
               Enlazar
             </button>
