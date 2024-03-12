@@ -1,106 +1,178 @@
 // Importaciones necesarias
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend, ResponsiveContainer } from 'recharts';
 import Navbar from '../Navegation/Navbar';
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
+import { FaCalendarAlt, FaPills } from 'react-icons/fa';
+
+
 const dataHeartRate = [
-    { name: '00:00', bpm: 60 },
-    { name: '02:00', bpm: 59 },
-  
-  ];
-  
- 
-  const dataTemperature = [
-    { name: '00:00', temp: 36.5 },
-    { name: '02:00', temp: 37.2 },
-  
-  ];
-  const agendaItems = [
-    { hora: '08:00', actividad: 'Desayuno' },
-    { hora: '10:00', actividad: 'Medicación: Paracetamol' },
-    
-  ];
-  
-  const medicamentos = [
-    { nombre: 'Paracetamol', dosis: '500mg', frecuencia: 'Cada 8 horas' },
-    { nombre: 'Ibuprofeno', dosis: '400mg', frecuencia: 'Cada 6 horas' },
-   
-  ];
-  
-  const alertas = [
-    { fecha: '2024-02-25', descripcion: 'Temperatura elevada: 38°C' },
-    { fecha: '2024-02-26', descripcion: 'Ritmo cardíaco irregular detectado' },
-    
-  ];
+  { name: '00:00', bpm: 60 },
+  { name: '02:00', bpm: 59 },
+
+];
+
+
+const dataTemperature = [
+  { name: '00:00', temp: 36.5 },
+  { name: '02:00', temp: 37.2 },
+  { name: '03:00', temp: 29.2 },
+
+];
+
+
+const medicamentos = [
+  { nombre: 'Paracetamol', dosis: '500mg', frecuencia: 'Cada 8 horas' },
+  { nombre: 'Ibuprofeno', dosis: '400mg', frecuencia: 'Cada 6 horas' },
+
+];
+
+const alertas = [
+  { fecha: '2024-02-25', descripcion: 'Temperatura elevada: 38°C' },
+  { fecha: '2024-02-26', descripcion: 'Ritmo cardíaco irregular detectado' },
+
+];
 export default function PatientMonitoring() {
-    
+  const [agendaItems, setAgendaItems] = useState([]);
+  const [medicinaItems, setMedicinaItems] = useState([]);
+  const location = useLocation();
+  const { paciente } = location.state || {};
+  useEffect(() => {
+    const cargarAgenda = async () => {
+      try {
+        const respuesta = await fetch(`https://carinosaapi.onrender.com/agenda/getAll`);
+        const datos = await respuesta.json();
+        const agendasFiltradas = datos.filter(item => item.paciente_id === paciente.id);
+
+        // Filtrar duplicados basados en el ID único de cada entrada de agenda
+        const agendasUnicas = agendasFiltradas.reduce((acc, current) => {
+          const x = acc.find(item => item.id === current.id);
+          if (!x) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        }, []);
+
+        setAgendaItems(agendasUnicas);
+      } catch (error) {
+        console.error("Error al cargar las agendas:", error);
+      }
+    };
+
+    const cargarMedicamentos = async () => {
+      try {
+        const respuesta = await fetch(`https://carinosaapi.onrender.com/horariomedicamentos/getAll`);
+        const datos = await respuesta.json();
+        const medicamentosFiltrados = datos.filter(item => item.paciente_id === paciente.id);
+        const medicamentosUnicos = medicamentosFiltrados.reduce((acc, current) => {
+          const x = acc.find(item => item.medicamento_id === current.medicamento_id);
+          if (!x) {
+            return acc.concat([current]);
+          } else {
+            return acc;
+          }
+        }, []);
+
+        setMedicinaItems(medicamentosUnicos);
+      } catch (error) {
+        console.error("Error al cargar los medicamentos:", error);
+      }
+    };
+
+    if (paciente && paciente.id) {
+      cargarAgenda();
+      cargarMedicamentos();
+    }
+  }, [paciente]);
+
   return (
     <>
-    <Navbar />
-    <div className="p-5">
-      <h1 className="text-2xl  text-curious-blue-900  font-bold mb-5">Monitoreo del Paciente</h1>
-      
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-        {/* Gráfico del ritmo cardíaco */}
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-3">Ritmo Cardíaco (bpm)</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dataHeartRate} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis label={{ value: 'bpm', angle: -90, position: 'insideLeft' }} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="bpm" stroke="#8884d8" activeDot={{ r: 8 }} />
-            </LineChart>
-          </ResponsiveContainer>
+      <Navbar />
+      <div className=" bg-Black-White-50 p-5">
+        <h1 className="text-2xl  text-curious-blue-900  font-bold mb-5">Monitoreo del Paciente {paciente.nombre}</h1>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          {/* Gráfico del ritmo cardíaco */}
+          <div className="bg-white p-4 rounded-lg shadow">
+            <h2 className="text-lg font-semibold mb-3">Ritmo Cardíaco (bpm)</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={dataHeartRate} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis label={{ value: 'bpm', angle: -90, position: 'insideLeft' }} />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="bpm" stroke="#8884d8" activeDot={{ r: 8 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
+
+          {/* Gráfico de temperatura */}
+          <div className="bg-white p-4 rounded-lg shadow">
+            <h2 className="text-lg font-semibold mb-3">Temperatura (°C)</h2>
+            <ResponsiveContainer width="100%" height={300}>
+              <LineChart data={dataTemperature} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="name" />
+                <YAxis label={{ value: '°C', angle: -90, position: 'insideLeft' }} />
+                <Tooltip />
+                <Legend />
+                <Line type="monotone" dataKey="temp" stroke="#82ca9d" activeDot={{ r: 8 }} />
+              </LineChart>
+            </ResponsiveContainer>
+          </div>
         </div>
 
-        {/* Gráfico de temperatura */}
-        <div className="bg-white p-4 rounded-lg shadow">
-          <h2 className="text-lg font-semibold mb-3">Temperatura (°C)</h2>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={dataTemperature} margin={{ top: 5, right: 30, left: 20, bottom: 5 }}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey="name" />
-              <YAxis label={{ value: '°C', angle: -90, position: 'insideLeft' }} />
-              <Tooltip />
-              <Legend />
-              <Line type="monotone" dataKey="temp" stroke="#82ca9d" activeDot={{ r: 8 }} />
-            </LineChart>
-          </ResponsiveContainer>
+        {/* Agenda */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-3">Agenda del Día</h2>
+          <div className="overflow-auto whitespace-nowrap">
+            {agendaItems.map((item) => (
+              <div key={item.id} className="inline-block px-4">
+                <div className="p-4 bg-pomegranate-300 mb-4 w-72 rounded-lg shadow-xl relative">
+                  <FaCalendarAlt size="19px" className="absolute top-0 right-0 text-white mt-5 mr-5" />
+                  <p className="font-bold text-white">{item.nombre}</p>
+                  <p className=' font-semibold text-black' >{item.descripcion}</p>
+                  <p className=' font-semibold text-black'>{new Date(item.fecha).toLocaleDateString()} - {new Date(item.hora).toLocaleTimeString()}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+
+        {/* Medicamentos */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-3">Medicamentos</h2>
+          <div className="overflow-auto whitespace-nowrap">
+            {medicinaItems.map((medicamento) => (
+              <div key={medicamento.id} className="inline-block px-4 ">
+                <div className="p-4 bg-curious-blue-300 mb-4 w-72 rounded-lg shadow-lg relative">
+                  <FaPills size="19px" className="absolute top-0 right-0 text-white mt-5 mr-5" />
+                  <p className="font-bold text-white">{medicamento.nombre}</p>
+                  <p className=' font-semibold text-black' >{medicamento.descripcion}</p>
+                  <p className=' font-semibold text-black' >Dosis: {medicamento.dosis_restantes}</p>
+                  <p className=' font-semibold text-black' >Frecuencia: {medicamento.frecuencia} horas</p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Alertas */}
+        <div className="mt-8">
+          <h2 className="text-lg font-semibold mb-3">Alertas Recientes</h2>
+          <ul className="list-disc pl-5">
+            {alertas.map((alerta, index) => (
+              <li key={index}>{alerta.fecha} - {alerta.descripcion}</li>
+            ))}
+          </ul>
         </div>
       </div>
-
-      {/* Agenda */}
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-3">Agenda del Día</h2>
-        <ul className="list-disc pl-5">
-          {agendaItems.map((item, index) => (
-            <li key={index}>{item.hora} - {item.actividad}</li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Medicamentos */}
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-3">Medicamentos</h2>
-        <ul className="list-disc pl-5">
-          {medicamentos.map((medicamento, index) => (
-            <li key={index}>{medicamento.nombre}: {medicamento.dosis} - {medicamento.frecuencia}</li>
-          ))}
-        </ul>
-      </div>
-
-      {/* Alertas */}
-      <div className="mt-8">
-        <h2 className="text-lg font-semibold mb-3">Alertas Recientes</h2>
-        <ul className="list-disc pl-5">
-          {alertas.map((alerta, index) => (
-            <li key={index}>{alerta.fecha} - {alerta.descripcion}</li>
-          ))}
-        </ul>
-      </div>
-    </div>
     </>
   );
 }
