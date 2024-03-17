@@ -11,9 +11,6 @@ export default function PatientMonitoring() {
   const [dataTemperature, setDataTemperature] = useState([]);
   const [ritmoCardiaco, setRitmoCardiaco] = useState(null);
   const [temperatura, setTemperatura] = useState(null);
-  const [estadoTemperatura, setEstadoTemperatura] = useState('normal');
-  const [notificacionEnviada, setNotificacionEnviada] = useState(false);
-  const [estado, setEstado] = useState('normal');
   const location = useLocation();
   const { paciente } = location.state || {};
 
@@ -82,12 +79,6 @@ export default function PatientMonitoring() {
             setRitmoCardiaco(nuevoValorRitmoCardiaco);
             setTemperatura(nuevaTemperatura);
   
-            const nuevoEstadoRitmo = calcularEstado(nuevoValorRitmoCardiaco);
-            const nuevoEstadoTemp = calcularEstadoTemp(nuevaTemperatura);
-  
-            setEstado(nuevoEstadoRitmo);
-            setEstadoTemperatura(nuevoEstadoTemp);
-  
             setDataHeartRate(prevData => [...prevData, {
               name: new Date(heartRateProp.value_updated_at).toLocaleTimeString(),
               bpm: nuevoValorRitmoCardiaco,
@@ -97,9 +88,6 @@ export default function PatientMonitoring() {
               name: new Date(temperatureProp.value_updated_at).toLocaleTimeString(),
               temp: nuevaTemperatura,
             }]);
-  
-            enviarNotificacion(nuevoValorRitmoCardiaco, nuevoEstadoRitmo);
-            enviarNotificacionTemperatura(nuevaTemperatura, nuevoEstadoTemp);
           }
         }
       } catch (error) {
@@ -107,96 +95,13 @@ export default function PatientMonitoring() {
       }
     };
     fetchData();
-    const intervalId = setInterval(fetchData, 10000);
+    const intervalId = setInterval(fetchData, 5000);
     return () => clearInterval(intervalId);
   }, []);
   
-  useEffect(() => {
-    const nuevoEstado = calcularEstado(ritmoCardiaco);
-    
-    if (nuevoEstado !== estado) {
-      setEstado(nuevoEstado);
-      if (nuevoEstado !== 'normal') {
-        enviarNotificacion(ritmoCardiaco, nuevoEstado);
-      }
-    }
-  }, [ritmoCardiaco]);
   
 
-  const calcularEstado = (ritmo) => {
-    if (ritmo < 60) return 'bradicardia';
-    else if (ritmo > 100) return 'taquicardia';
-    else return 'normal';
-  };
   
-  const enviarNotificacion = (ritmoCardiaco, estado) => {
-    fetch('https://carinosaapi.onrender.com/api/sendp', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        title: 'Alerta de Ritmo Cardíaco',
-        body: `El ritmo cardíaco es ${ritmoCardiaco.toFixed(1)} bpm, el paciente presenta un estado de ${estado}. Por favor, revise el estado del paciente.`
-      }),
-    })
-    .then(response => {
-      if (response.ok) {
-        console.log('Notificación enviada con éxito');
-      } else {
-        console.error('Error al enviar la notificación');
-      }
-    })
-    .catch(error => {
-      console.error('Error al enviar la notificación:', error);
-    });
-  };
-  
-  
-    const enviarNotificacionTemperatura = (temperatura, estado) => {
-      fetch('https://carinosaapi.onrender.com/api/sendp', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          title: 'Alerta de Temperatura',
-          body: `La temperatura es ${temperatura.toFixed(1)}°C, el paciente presenta un estado de ${estado}. Por favor, revise el estado del paciente.,`
-        }),
-      })
-      .then(response => {
-        if (response.ok) {
-          console.log('Notificación de temperatura enviada con éxito');
-        } else {
-          console.error('Error al enviar la notificación de temperatura');
-        }
-      })
-      .catch(error => {
-        console.error('Error al enviar la notificación de temperatura:', error);
-      });
-    };
-  
-    useEffect(() => {
-      const nuevoEstadoTemp = calcularEstadoTemp(temperatura);
-      
-      if (nuevoEstadoTemp !== estadoTemperatura) {
-        setEstadoTemperatura(nuevoEstadoTemp);
-        if (nuevoEstadoTemp !== 'normal') {
-          enviarNotificacionTemperatura(temperatura, nuevoEstadoTemp);
-        }
-      }
-    }, [temperatura]);
-    
-    const calcularEstadoTemp = (temp) => {
-      if (temp < 36.0) return 'hipotermia';
-      else if (temp > 37.5) return 'fiebre';
-      else return 'normal';
-    };
-  
-  
-  
-  
-
   return (
     <>
       <Navbar />

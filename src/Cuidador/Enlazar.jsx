@@ -40,7 +40,7 @@ function LinkModal({ closeModal, cuidador }) {
       alert('Debe seleccionar un paciente y tener un cuidador seleccionado.');
       return;
     }
-    alert(`Objeto cuidador: ${JSON.stringify(cuidador, null, 2)}`);
+  
 
     const requestBody = JSON.stringify({
       PacienteID: Number(selectedPaciente),

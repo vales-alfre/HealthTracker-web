@@ -21,7 +21,7 @@ function CurerRegistration({ closeModal, CurerData }) {
     const handleFormSubmit = async (e) => {
         e.preventDefault();
     
-        // Convierte los campos del formulario al formato esperado por el backend
+       
         const dataToSend = {
             firstname: formData.nombre,
             lastname: formData.apellidos,
@@ -35,12 +35,9 @@ function CurerRegistration({ closeModal, CurerData }) {
            
         };
     
-        // Determina si estás actualizando o insertando
+       
         const isUpdating = CurerData && CurerData.id;
         const endpoint = isUpdating ? `api/update/${CurerData.id}` : 'user/insertcuidador';
-    
-        // Muestra una alerta con los datos a enviar (para depuración)
-        alert(`Datos a enviar: ${JSON.stringify(dataToSend, null, 2)}`);
     
         try {
             const response = await fetch(`https://carinosaapi.onrender.com/${endpoint}`, {
@@ -56,7 +53,7 @@ function CurerRegistration({ closeModal, CurerData }) {
             }
     
             alert(`Cuidador ${isUpdating ? 'actualizado' : 'registrado'} con éxito`);
-            // Actualiza cualquier estado necesario aquí, como la recarga de la lista de cuidadores
+           
             closeModal();
         } catch (error) {
             console.error("Error:", error);
