@@ -37,7 +37,7 @@ export default function PatientMonitoring() {
 
     const cargarMedicamentos = async () => {
       try {
-        const respuesta = await fetch(`https://carinosaapi.onrender.com/horariomedicamentos/getAll`);
+        const respuesta = await fetch(`https://carinosaapi.onrender.com/medicamento/getAll`);
         const datos = await respuesta.json();
         const medicamentosFiltrados = datos.filter(item => item.paciente_id === paciente.id);
         const medicamentosUnicos = medicamentosFiltrados.reduce((acc, current) => {
